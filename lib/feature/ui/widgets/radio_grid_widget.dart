@@ -16,15 +16,8 @@ class RadioGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return ListView.builder(
       padding: const EdgeInsets.all(16),
-      reverse: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.65,
-        crossAxisCount: (size.width / 100).toInt(),
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-      ),
       itemBuilder: (context, index) {
         return RadioStationWidget(
           radioStationEntity: stations![index],

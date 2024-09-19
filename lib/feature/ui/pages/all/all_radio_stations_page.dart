@@ -29,21 +29,26 @@ class AllRadioStationsPage extends StatelessWidget {
           switch (state) {
             case AllRadioStationsLoadedState():
               return Container(
-                  color: context.colors.background,
-                  child: RadioGridWidget(
-                    size: size,
-                    stations: state.data,
-                    onClick: (radioStationEntity) {
-                      audioHandler?.playMediaItem(
-                        MediaItem(
+                color: context.colors.background,
+                child: RadioGridWidget(
+                  size: size,
+                  stations: state.data,
+                  onClick: (radioStationEntity) {
+                    audioHandler?.playMediaItem(
+                      MediaItem(
                           id: radioStationEntity.url ?? '',
                           title: radioStationEntity.name ?? '',
+                          displayTitle: radioStationEntity.name ?? '',
+                          displaySubtitle: radioStationEntity.country ?? '',
                           artUri: Uri.parse(radioStationEntity.favicon ?? ''),
-                          duration: const Duration(milliseconds: 40000000),
-                        ),
-                      );
-                    }
-                  ),
+                          duration: const Duration(
+                              hours: 24, minutes: 00, seconds: 00),
+                          extras: <String, bool>{
+                            'isLike': true,
+                          }),
+                    );
+                  },
+                ),
               );
             case AllRadioStationsErrorState():
               return Container(

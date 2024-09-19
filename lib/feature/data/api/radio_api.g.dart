@@ -14,7 +14,7 @@ class _RestClient implements RestClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://all.api.radio-browser.info/';
+    baseUrl ??= 'https://de1.api.radio-browser.info/';
   }
 
   final Dio _dio;

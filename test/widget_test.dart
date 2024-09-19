@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:radio_online/radio_app.dart';
+import 'package:radio_online/main.dart';
 
 
 void main() {

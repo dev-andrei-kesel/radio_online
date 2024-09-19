@@ -6,7 +6,7 @@ import '../models/radio_type.dart';
 
 part 'radio_api.g.dart';
 
-@RestApi(baseUrl: 'https://all.api.radio-browser.info/')
+@RestApi(baseUrl: 'https://de1.api.radio-browser.info/')
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 

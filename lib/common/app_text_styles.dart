@@ -6,11 +6,13 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
   final AppColors? colors;
   final TextStyle? title;
   final TextStyle? text;
+  final TextStyle? header;
 
   const AppTextStyles({
     required this.colors,
     required this.title,
     required this.text,
+    required this.header,
   });
 
   factory AppTextStyles.fromColors(AppColors? colors) {
@@ -22,6 +24,11 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
         color: colors?.text,
       ),
       text: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+        color: colors?.text,
+      ),
+      header: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.normal,
         color: colors?.text,

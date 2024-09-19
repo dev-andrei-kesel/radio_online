@@ -15,11 +15,11 @@ class ColorsLight extends AppColors {
   Color unselected;
 
   ColorsLight({
-    this.background = Colors.lightGreenAccent,
-    this.onBackground = Colors.yellow,
+    this.background = Colors.yellow,
+    this.onBackground = Colors.white,
     this.text = Colors.black,
     this.selected = Colors.black,
-    this.unselected = Colors.lime,
+    this.unselected = Colors.white,
   });
 
   @override
@@ -31,11 +31,11 @@ class ColorsLight extends AppColors {
     Color? unselected,
   }) {
     return ColorsLight(
-      background: background ?? Colors.lightGreenAccent,
-      onBackground: onBackground ?? Colors.yellow,
+      background: background ?? Colors.yellow,
+      onBackground: onBackground ?? Colors.white,
       text: text ?? Colors.black,
       selected: selected ?? Colors.black,
-      unselected: selected ?? Colors.lime,
+      unselected: unselected ?? Colors.white,
     );
   }
 

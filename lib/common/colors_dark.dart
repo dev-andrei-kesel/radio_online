@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -16,10 +15,10 @@ class ColorsDark extends AppColors {
   Color unselected;
 
   ColorsDark({
-    this.background = Colors.green,
-    this.onBackground = Colors.yellow,
-    this.text = Colors.black,
-    this.selected = Colors.black,
+    this.background = Colors.black,
+    this.onBackground = Colors.brown,
+    this.text = Colors.white,
+    this.selected = Colors.white,
     this.unselected = Colors.white30,
   });
 
@@ -32,10 +31,10 @@ class ColorsDark extends AppColors {
     Color? unselected,
   }) {
     return ColorsDark(
-      background: background ?? Colors.green,
-      onBackground: background ?? Colors.yellow,
-      text: text ?? Colors.black,
-      selected: selected ?? Colors.black,
+      background: background ?? Colors.black,
+      onBackground: onBackground ?? Colors.brown,
+      text: text ?? Colors.white,
+      selected: selected ?? Colors.white,
       unselected: unselected ?? Colors.white30,
     );
   }

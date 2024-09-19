@@ -11,15 +11,12 @@ import 'feature/navigation/navigation_router.dart';
 
 void main() async {
   NavigationRouter.audioHandler = await AudioService.init(
-    builder: () => AudioPlayerHandler(),
+    builder: () => AudioPlayerHandler()..requestNotificationPermission(),
     config: const AudioServiceConfig(
       androidNotificationChannelId:
           StringResources.androidNotificationChannelId,
       androidNotificationChannelName:
           StringResources.androidNotificationChannelName,
-      androidNotificationOngoing: true,
-      androidShowNotificationBadge: true,
-      androidStopForegroundOnPause: true,
     ),
   );
   runApp(const MyApp());

@@ -49,5 +49,9 @@
       <array>
         <string>audio</string>
       </array>
+      <key>NSUserNotificationUsageDescription</key>
+       <string>
+       Это приложение использует уведомления, чтобы информировать вас о новых сообщениях.
+       </string>
 </dict>
 </plist>

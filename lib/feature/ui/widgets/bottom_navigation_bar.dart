@@ -51,12 +51,11 @@ class _RadioBottomNavigationBarState extends State<RadioBottomNavigationBar> {
         ),
       ],
       currentIndex: navigationShell.currentIndex,
-      selectedItemColor: index == 1 ? Colors.red : context.colors.selected,
+      selectedItemColor: context.colors.selected,
       unselectedItemColor: context.colors.unselected,
       showSelectedLabels: true,
       selectedLabelStyle: TextStyle(
-          color: index == 1 ? Colors.red : context.colors.selected,
-          fontWeight: FontWeight.bold),
+          color: context.colors.selected, fontWeight: FontWeight.bold),
       onTap: (index) =>
           _goBranch(index: index, navigationShell: navigationShell),
       useLegacyColorScheme: false,
