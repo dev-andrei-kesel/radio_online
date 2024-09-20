@@ -5,7 +5,7 @@ import 'package:radio_online/feature/ui/pages/main/radio_main_states.dart';
 class RadioMainCubit extends Cubit<RadioMainStates> {
   IconData? icon = Icons.pause;
 
-  RadioMainCubit(super.initialState);
+  RadioMainCubit() : super(DefaultState());
 
   Future<void> onPlay() async {
     icon = Icons.play_arrow;

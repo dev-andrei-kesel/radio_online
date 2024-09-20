@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen>
       child: MultiBlocProvider(
         providers: [
           BlocProvider<RadioMainCubit>(
-            create: (context) => RadioMainCubit(OnPlayState()),
+            create: (context) => RadioMainCubit(),
           ),
           BlocProvider<RadioFavouritesCubit>(
             create: (context) => RadioFavouritesCubit(
@@ -136,7 +136,7 @@ class _MainScreenState extends State<MainScreen>
   void _initAnimation() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 600),
     );
     _animation = Tween(begin: 0.0, end: 1.0).animate(
       _controller,
