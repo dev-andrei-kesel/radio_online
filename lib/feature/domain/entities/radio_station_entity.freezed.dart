@@ -20,6 +20,7 @@ RadioStationEntity _$RadioStationEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RadioStationEntity {
+  String? get stationUuid => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
   String? get urlResolved => throw _privateConstructorUsedError;
@@ -32,6 +33,7 @@ mixin _$RadioStationEntity {
   String? get languageCodes => throw _privateConstructorUsedError;
   int? get votes => throw _privateConstructorUsedError;
   String? get codec => throw _privateConstructorUsedError;
+  bool? get isFavourite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +48,8 @@ abstract class $RadioStationEntityCopyWith<$Res> {
       _$RadioStationEntityCopyWithImpl<$Res, RadioStationEntity>;
   @useResult
   $Res call(
-      {String? name,
+      {String? stationUuid,
+      String? name,
       String? url,
       String? urlResolved,
       String? homepage,
@@ -57,7 +60,8 @@ abstract class $RadioStationEntityCopyWith<$Res> {
       String? language,
       String? languageCodes,
       int? votes,
-      String? codec});
+      String? codec,
+      bool? isFavourite});
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$RadioStationEntityCopyWithImpl<$Res, $Val extends RadioStationEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? stationUuid = freezed,
     Object? name = freezed,
     Object? url = freezed,
     Object? urlResolved = freezed,
@@ -85,8 +90,13 @@ class _$RadioStationEntityCopyWithImpl<$Res, $Val extends RadioStationEntity>
     Object? languageCodes = freezed,
     Object? votes = freezed,
     Object? codec = freezed,
+    Object? isFavourite = freezed,
   }) {
     return _then(_value.copyWith(
+      stationUuid: freezed == stationUuid
+          ? _value.stationUuid
+          : stationUuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -135,6 +145,10 @@ class _$RadioStationEntityCopyWithImpl<$Res, $Val extends RadioStationEntity>
           ? _value.codec
           : codec // ignore: cast_nullable_to_non_nullable
               as String?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -148,7 +162,8 @@ abstract class _$$RadioStationEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? name,
+      {String? stationUuid,
+      String? name,
       String? url,
       String? urlResolved,
       String? homepage,
@@ -159,7 +174,8 @@ abstract class _$$RadioStationEntityImplCopyWith<$Res>
       String? language,
       String? languageCodes,
       int? votes,
-      String? codec});
+      String? codec,
+      bool? isFavourite});
 }
 
 /// @nodoc
@@ -173,6 +189,7 @@ class __$$RadioStationEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? stationUuid = freezed,
     Object? name = freezed,
     Object? url = freezed,
     Object? urlResolved = freezed,
@@ -185,8 +202,13 @@ class __$$RadioStationEntityImplCopyWithImpl<$Res>
     Object? languageCodes = freezed,
     Object? votes = freezed,
     Object? codec = freezed,
+    Object? isFavourite = freezed,
   }) {
     return _then(_$RadioStationEntityImpl(
+      stationUuid: freezed == stationUuid
+          ? _value.stationUuid
+          : stationUuid // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -235,6 +257,10 @@ class __$$RadioStationEntityImplCopyWithImpl<$Res>
           ? _value.codec
           : codec // ignore: cast_nullable_to_non_nullable
               as String?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -243,7 +269,8 @@ class __$$RadioStationEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RadioStationEntityImpl implements _RadioStationEntity {
   const _$RadioStationEntityImpl(
-      {required this.name,
+      {required this.stationUuid,
+      required this.name,
       required this.url,
       required this.urlResolved,
       required this.homepage,
@@ -254,11 +281,14 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
       required this.language,
       required this.languageCodes,
       required this.votes,
-      required this.codec});
+      required this.codec,
+      required this.isFavourite});
 
   factory _$RadioStationEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$RadioStationEntityImplFromJson(json);
 
+  @override
+  final String? stationUuid;
   @override
   final String? name;
   @override
@@ -283,10 +313,12 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
   final int? votes;
   @override
   final String? codec;
+  @override
+  final bool? isFavourite;
 
   @override
   String toString() {
-    return 'RadioStationEntity(name: $name, url: $url, urlResolved: $urlResolved, homepage: $homepage, favicon: $favicon, tags: $tags, country: $country, countryCode: $countryCode, language: $language, languageCodes: $languageCodes, votes: $votes, codec: $codec)';
+    return 'RadioStationEntity(stationUuid: $stationUuid, name: $name, url: $url, urlResolved: $urlResolved, homepage: $homepage, favicon: $favicon, tags: $tags, country: $country, countryCode: $countryCode, language: $language, languageCodes: $languageCodes, votes: $votes, codec: $codec, isFavourite: $isFavourite)';
   }
 
   @override
@@ -294,6 +326,8 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RadioStationEntityImpl &&
+            (identical(other.stationUuid, stationUuid) ||
+                other.stationUuid == stationUuid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.urlResolved, urlResolved) ||
@@ -310,13 +344,16 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
             (identical(other.languageCodes, languageCodes) ||
                 other.languageCodes == languageCodes) &&
             (identical(other.votes, votes) || other.votes == votes) &&
-            (identical(other.codec, codec) || other.codec == codec));
+            (identical(other.codec, codec) || other.codec == codec) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      stationUuid,
       name,
       url,
       urlResolved,
@@ -328,7 +365,8 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
       language,
       languageCodes,
       votes,
-      codec);
+      codec,
+      isFavourite);
 
   @JsonKey(ignore: true)
   @override
@@ -347,7 +385,8 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
 
 abstract class _RadioStationEntity implements RadioStationEntity {
   const factory _RadioStationEntity(
-      {required final String? name,
+      {required final String? stationUuid,
+      required final String? name,
       required final String? url,
       required final String? urlResolved,
       required final String? homepage,
@@ -358,11 +397,14 @@ abstract class _RadioStationEntity implements RadioStationEntity {
       required final String? language,
       required final String? languageCodes,
       required final int? votes,
-      required final String? codec}) = _$RadioStationEntityImpl;
+      required final String? codec,
+      required final bool? isFavourite}) = _$RadioStationEntityImpl;
 
   factory _RadioStationEntity.fromJson(Map<String, dynamic> json) =
       _$RadioStationEntityImpl.fromJson;
 
+  @override
+  String? get stationUuid;
   @override
   String? get name;
   @override
@@ -387,6 +429,8 @@ abstract class _RadioStationEntity implements RadioStationEntity {
   int? get votes;
   @override
   String? get codec;
+  @override
+  bool? get isFavourite;
   @override
   @JsonKey(ignore: true)
   _$$RadioStationEntityImplCopyWith<_$RadioStationEntityImpl> get copyWith =>

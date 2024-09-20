@@ -20,6 +20,9 @@ abstract class RadioRepository {
 
   Future<List<RadioStationEntity>> searchByGenre({required String? genre});
 
-  Future<List<RadioStationEntity>> searchByLanguageCode(
-      {required String? languageCode});
+  Future<List<RadioStationEntity>> getFavouriteRadioStations();
+
+  Future<void> addFavouriteRadioStations(RadioStationEntity radioStation);
+
+  Future<void> removeFavouriteRadioStations(RadioStationEntity radioStation);
 }

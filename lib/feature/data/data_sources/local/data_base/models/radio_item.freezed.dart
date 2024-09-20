@@ -20,7 +20,7 @@ RadioItem _$RadioItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RadioItem {
-  int get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
   String? get urlResolved => throw _privateConstructorUsedError;
@@ -29,7 +29,7 @@ mixin _$RadioItem {
   String? get tags => throw _privateConstructorUsedError;
   String? get country => throw _privateConstructorUsedError;
   String? get countryCode => throw _privateConstructorUsedError;
-  String? get language => throw _privateConstructorUsedError;
+  String? get languages => throw _privateConstructorUsedError;
   String? get languageCodes => throw _privateConstructorUsedError;
   int? get votes => throw _privateConstructorUsedError;
   String? get codec => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $RadioItemCopyWith<$Res> {
       _$RadioItemCopyWithImpl<$Res, RadioItem>;
   @useResult
   $Res call(
-      {int id,
+      {String? id,
       String? name,
       String? url,
       String? urlResolved,
@@ -55,7 +55,7 @@ abstract class $RadioItemCopyWith<$Res> {
       String? tags,
       String? country,
       String? countryCode,
-      String? language,
+      String? languages,
       String? languageCodes,
       int? votes,
       String? codec});
@@ -74,7 +74,7 @@ class _$RadioItemCopyWithImpl<$Res, $Val extends RadioItem>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = freezed,
     Object? url = freezed,
     Object? urlResolved = freezed,
@@ -83,16 +83,16 @@ class _$RadioItemCopyWithImpl<$Res, $Val extends RadioItem>
     Object? tags = freezed,
     Object? country = freezed,
     Object? countryCode = freezed,
-    Object? language = freezed,
+    Object? languages = freezed,
     Object? languageCodes = freezed,
     Object? votes = freezed,
     Object? codec = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -125,9 +125,9 @@ class _$RadioItemCopyWithImpl<$Res, $Val extends RadioItem>
           ? _value.countryCode
           : countryCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      language: freezed == language
-          ? _value.language
-          : language // ignore: cast_nullable_to_non_nullable
+      languages: freezed == languages
+          ? _value.languages
+          : languages // ignore: cast_nullable_to_non_nullable
               as String?,
       languageCodes: freezed == languageCodes
           ? _value.languageCodes
@@ -154,7 +154,7 @@ abstract class _$$RadioItemImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {String? id,
       String? name,
       String? url,
       String? urlResolved,
@@ -163,7 +163,7 @@ abstract class _$$RadioItemImplCopyWith<$Res>
       String? tags,
       String? country,
       String? countryCode,
-      String? language,
+      String? languages,
       String? languageCodes,
       int? votes,
       String? codec});
@@ -180,7 +180,7 @@ class __$$RadioItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = freezed,
     Object? url = freezed,
     Object? urlResolved = freezed,
@@ -189,16 +189,16 @@ class __$$RadioItemImplCopyWithImpl<$Res>
     Object? tags = freezed,
     Object? country = freezed,
     Object? countryCode = freezed,
-    Object? language = freezed,
+    Object? languages = freezed,
     Object? languageCodes = freezed,
     Object? votes = freezed,
     Object? codec = freezed,
   }) {
     return _then(_$RadioItemImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -231,9 +231,9 @@ class __$$RadioItemImplCopyWithImpl<$Res>
           ? _value.countryCode
           : countryCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      language: freezed == language
-          ? _value.language
-          : language // ignore: cast_nullable_to_non_nullable
+      languages: freezed == languages
+          ? _value.languages
+          : languages // ignore: cast_nullable_to_non_nullable
               as String?,
       languageCodes: freezed == languageCodes
           ? _value.languageCodes
@@ -264,7 +264,7 @@ class _$RadioItemImpl implements _RadioItem {
       required this.tags,
       required this.country,
       required this.countryCode,
-      required this.language,
+      required this.languages,
       required this.languageCodes,
       required this.votes,
       required this.codec});
@@ -273,7 +273,7 @@ class _$RadioItemImpl implements _RadioItem {
       _$$RadioItemImplFromJson(json);
 
   @override
-  final int id;
+  final String? id;
   @override
   final String? name;
   @override
@@ -291,7 +291,7 @@ class _$RadioItemImpl implements _RadioItem {
   @override
   final String? countryCode;
   @override
-  final String? language;
+  final String? languages;
   @override
   final String? languageCodes;
   @override
@@ -301,7 +301,7 @@ class _$RadioItemImpl implements _RadioItem {
 
   @override
   String toString() {
-    return 'RadioItem(id: $id, name: $name, url: $url, urlResolved: $urlResolved, homepage: $homepage, favicon: $favicon, tags: $tags, country: $country, countryCode: $countryCode, language: $language, languageCodes: $languageCodes, votes: $votes, codec: $codec)';
+    return 'RadioItem(id: $id, name: $name, url: $url, urlResolved: $urlResolved, homepage: $homepage, favicon: $favicon, tags: $tags, country: $country, countryCode: $countryCode, languages: $languages, languageCodes: $languageCodes, votes: $votes, codec: $codec)';
   }
 
   @override
@@ -321,8 +321,8 @@ class _$RadioItemImpl implements _RadioItem {
             (identical(other.country, country) || other.country == country) &&
             (identical(other.countryCode, countryCode) ||
                 other.countryCode == countryCode) &&
-            (identical(other.language, language) ||
-                other.language == language) &&
+            (identical(other.languages, languages) ||
+                other.languages == languages) &&
             (identical(other.languageCodes, languageCodes) ||
                 other.languageCodes == languageCodes) &&
             (identical(other.votes, votes) || other.votes == votes) &&
@@ -342,7 +342,7 @@ class _$RadioItemImpl implements _RadioItem {
       tags,
       country,
       countryCode,
-      language,
+      languages,
       languageCodes,
       votes,
       codec);
@@ -363,7 +363,7 @@ class _$RadioItemImpl implements _RadioItem {
 
 abstract class _RadioItem implements RadioItem {
   const factory _RadioItem(
-      {required final int id,
+      {required final String? id,
       required final String? name,
       required final String? url,
       required final String? urlResolved,
@@ -372,7 +372,7 @@ abstract class _RadioItem implements RadioItem {
       required final String? tags,
       required final String? country,
       required final String? countryCode,
-      required final String? language,
+      required final String? languages,
       required final String? languageCodes,
       required final int? votes,
       required final String? codec}) = _$RadioItemImpl;
@@ -381,7 +381,7 @@ abstract class _RadioItem implements RadioItem {
       _$RadioItemImpl.fromJson;
 
   @override
-  int get id;
+  String? get id;
   @override
   String? get name;
   @override
@@ -399,7 +399,7 @@ abstract class _RadioItem implements RadioItem {
   @override
   String? get countryCode;
   @override
-  String? get language;
+  String? get languages;
   @override
   String? get languageCodes;
   @override

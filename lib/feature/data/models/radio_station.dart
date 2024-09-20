@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:radio_online/feature/data/data_sources/local/data_base/models/radio_item.dart';
 import 'package:radio_online/feature/domain/entities/radio_station_entity.dart';
 
 part 'radio_station.freezed.dart';
@@ -54,6 +53,7 @@ class RadioStation with _$RadioStation {
 extension ToRadioEntity on RadioStation {
   RadioStationEntity toRadioStationsEntity() {
     return RadioStationEntity(
+      stationUuid: stationuuid,
       name: name,
       url: url,
       urlResolved: url_resolved,
@@ -66,26 +66,7 @@ extension ToRadioEntity on RadioStation {
       languageCodes: languagecodes,
       votes: votes,
       codec: codec,
-    );
-  }
-}
-
-extension ToRecipeItem on RadioStation {
-  RadioItem toRadioItem(int id) {
-    return RadioItem(
-      id: id,
-      name: name,
-      url: url,
-      urlResolved: url_resolved,
-      homepage: homepage,
-      favicon: favicon,
-      tags: tags,
-      country: country,
-      countryCode: countrycode,
-      language: language,
-      languageCodes: languagecodes,
-      votes: votes,
-      codec: codec,
+      isFavourite: false,
     );
   }
 }

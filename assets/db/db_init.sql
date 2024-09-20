@@ -1,6 +1,15 @@
 CREATE TABLE t_RadioItem (
-       id INTEGER PRIMARY KEY,
+       id TEXT PRIMARY KEY,
        name TEXT,
-       duration INTEGER,
-       photo TEXT
+       url TEXT,
+       urlResolved TEXT,
+       homepage TEXT,
+       favicon TEXT,
+       tags TEXT,
+       country TEXT,
+       countryCode TEXT,
+       languages TEXT,
+       languageCodes TEXT,
+       votes INTEGER,
+       codec TEXT
      );

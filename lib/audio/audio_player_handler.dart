@@ -2,9 +2,11 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:radio_online/feature/domain/entities/radio_station_entity.dart';
 
 class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   final _player = AudioPlayer();
+  RadioStationEntity? station;
 
   AudioPlayerHandler() {
     _init();
@@ -30,12 +32,6 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   Future<void> pause() => _player.pause();
 
   @override
-  Future<void> skipToNext() => _player.seekToNext();
-
-  @override
-  Future<void> skipToPrevious() => _player.seekToPrevious();
-
-  @override
   Future<void> stop() => _player.stop();
 
   @override
@@ -58,6 +54,20 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   Future<void> onTaskRemoved() async {
     await stop();
     return super.onTaskRemoved();
+  }
+
+  Future<void> setRadioStation(RadioStationEntity? station) async {
+    this.station = station;
+    playMediaItem(
+      MediaItem(
+        id: station?.url ?? '',
+        title: station?.country ?? '',
+        displayTitle: station?.name ?? '',
+        displaySubtitle: station?.name ?? '',
+        artUri: Uri.parse(station?.favicon ?? ''),
+        duration: const Duration(hours: 24, minutes: 00, seconds: 00),
+      ),
+    );
   }
 
   PlaybackState _transformEvent(PlaybackEvent event) {

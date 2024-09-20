@@ -9,6 +9,7 @@ part of 'radio_station_entity.dart';
 _$RadioStationEntityImpl _$$RadioStationEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$RadioStationEntityImpl(
+      stationUuid: json['stationUuid'] as String?,
       name: json['name'] as String?,
       url: json['url'] as String?,
       urlResolved: json['urlResolved'] as String?,
@@ -21,11 +22,13 @@ _$RadioStationEntityImpl _$$RadioStationEntityImplFromJson(
       languageCodes: json['languageCodes'] as String?,
       votes: (json['votes'] as num?)?.toInt(),
       codec: json['codec'] as String?,
+      isFavourite: json['isFavourite'] as bool?,
     );
 
 Map<String, dynamic> _$$RadioStationEntityImplToJson(
         _$RadioStationEntityImpl instance) =>
     <String, dynamic>{
+      'stationUuid': instance.stationUuid,
       'name': instance.name,
       'url': instance.url,
       'urlResolved': instance.urlResolved,
@@ -38,4 +41,5 @@ Map<String, dynamic> _$$RadioStationEntityImplToJson(
       'languageCodes': instance.languageCodes,
       'votes': instance.votes,
       'codec': instance.codec,
+      'isFavourite': instance.isFavourite,
     };

@@ -2,6 +2,7 @@ import '../../../../common/run_catching.dart';
 import '../../../../core/platform/network_info.dart';
 import '../../api/radio_api.dart';
 import '../../models/radio_station.dart';
+import '../../models/radio_type.dart';
 
 abstract class RadioRemoteDataSource {
   Future<List<RadioStation>> getAllStations();
@@ -13,6 +14,12 @@ abstract class RadioRemoteDataSource {
   Future<List<RadioStation>> searchByLanguage({required String? language});
 
   Future<List<RadioStation>> searchByGenre({required String? genre});
+
+  Future<List<RadioType>> getAllCountries();
+
+  Future<List<RadioType>> getAllTags();
+
+  Future<List<RadioType>> getAllLanguages();
 }
 
 class RadioRemoteDataSourceImpl implements RadioRemoteDataSource {
@@ -69,6 +76,36 @@ class RadioRemoteDataSourceImpl implements RadioRemoteDataSource {
       isConnected: await networkInfo.isConnected,
       run: () {
         return client.searchByStationName(name: name);
+      },
+    );
+  }
+
+  @override
+  Future<List<RadioType>> getAllCountries() async {
+    return runCatching(
+      isConnected: await networkInfo.isConnected,
+      run: () {
+        return client.getAllCountries();
+      },
+    );
+  }
+
+  @override
+  Future<List<RadioType>> getAllLanguages() async {
+    return runCatching(
+      isConnected: await networkInfo.isConnected,
+      run: () {
+        return client.getAllLanguages();
+      },
+    );
+  }
+
+  @override
+  Future<List<RadioType>> getAllTags() async {
+    return runCatching(
+      isConnected: await networkInfo.isConnected,
+      run: () {
+        return client.getAllTags();
       },
     );
   }

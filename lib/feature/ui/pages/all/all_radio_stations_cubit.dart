@@ -10,8 +10,8 @@ class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
   AllRadioStationsCubit({required this.userCase})
       : super(AllRadioStationsLoadingState());
 
-  Future<void> call(int? params) async {
-    final RadioResult result = await userCase.call(params).asResult();
+  Future<void> call() async {
+    final RadioResult result = await userCase.call(null).asResult();
     switch (result) {
       case Success():
         if (result.data == null) {
@@ -24,5 +24,12 @@ class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
       case Loading():
         emit(AllRadioStationsLoadingState());
     }
+  }
+
+  Future<void> update() async {
+    emit(AllRadioStationsLoadingState());
+    Future.delayed(const Duration(seconds: 1), () {
+      call();
+    });
   }
 }

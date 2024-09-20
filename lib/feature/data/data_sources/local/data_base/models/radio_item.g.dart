@@ -8,7 +8,7 @@ part of 'radio_item.dart';
 
 _$RadioItemImpl _$$RadioItemImplFromJson(Map<String, dynamic> json) =>
     _$RadioItemImpl(
-      id: (json['id'] as num).toInt(),
+      id: json['id'] as String?,
       name: json['name'] as String?,
       url: json['url'] as String?,
       urlResolved: json['urlResolved'] as String?,
@@ -17,7 +17,7 @@ _$RadioItemImpl _$$RadioItemImplFromJson(Map<String, dynamic> json) =>
       tags: json['tags'] as String?,
       country: json['country'] as String?,
       countryCode: json['countryCode'] as String?,
-      language: json['language'] as String?,
+      languages: json['languages'] as String?,
       languageCodes: json['languageCodes'] as String?,
       votes: (json['votes'] as num?)?.toInt(),
       codec: json['codec'] as String?,
@@ -34,7 +34,7 @@ Map<String, dynamic> _$$RadioItemImplToJson(_$RadioItemImpl instance) =>
       'tags': instance.tags,
       'country': instance.country,
       'countryCode': instance.countryCode,
-      'language': instance.language,
+      'languages': instance.languages,
       'languageCodes': instance.languageCodes,
       'votes': instance.votes,
       'codec': instance.codec,

@@ -8,9 +8,10 @@ T runCatching<T>({required Function() run, required bool isConnected}) {
     try {
       return run();
     } on Exception {
-      throw const ServerException();
+      throw const ServerException(
+          StringResources.serverErrorTitle, StringResources.serverErrorMessage);
     }
   } else {
-    throw const NetworkException(StringResources.networkErrorMessage);
+    throw const NetworkException(StringResources.networkErrorTitle);
   }
 }

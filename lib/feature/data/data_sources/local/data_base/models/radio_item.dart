@@ -9,7 +9,7 @@ part 'radio_item.g.dart';
 @freezed
 class RadioItem extends DbModel with _$RadioItem {
   const factory RadioItem({
-    required int id,
+    required String? id,
     required String? name,
     required String? url,
     required String? urlResolved,
@@ -18,7 +18,7 @@ class RadioItem extends DbModel with _$RadioItem {
     required String? tags,
     required String? country,
     required String? countryCode,
-    required String? language,
+    required String? languages,
     required String? languageCodes,
     required int? votes,
     required String? codec,
@@ -31,18 +31,19 @@ class RadioItem extends DbModel with _$RadioItem {
 extension ToEntity on RadioItem {
   RadioStationEntity toRadioStationsEntity() {
     return RadioStationEntity(
-      name: name,
-      url: url,
-      urlResolved: urlResolved,
-      homepage: homepage,
-      favicon: favicon,
-      tags: tags,
-      country: country,
-      countryCode: countryCode,
-      language: language,
-      languageCodes: languageCodes,
-      votes: votes,
-      codec: codec,
-    );
+        stationUuid: id,
+        name: name,
+        url: url,
+        urlResolved: urlResolved,
+        homepage: homepage,
+        favicon: favicon,
+        tags: tags,
+        country: country,
+        countryCode: countryCode,
+        language: languages,
+        languageCodes: languageCodes,
+        votes: votes,
+        codec: codec,
+        isFavourite: true);
   }
 }

@@ -3,7 +3,7 @@ import 'package:radio_online/common/app_text_styles.dart';
 
 class RadioRatingWidget extends StatelessWidget {
   final IconData icon;
-  final String value;
+  final String? value;
   final Color color;
 
   const RadioRatingWidget(
@@ -27,7 +27,7 @@ class RadioRatingWidget extends StatelessWidget {
           style: context.styles.header,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          value,
+          value ?? "",
         ),
       ],
     );

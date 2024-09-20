@@ -6,8 +6,11 @@ import 'package:radio_online/feature/domain/usercases/get_all_radio_stations_use
 import 'package:radio_online/feature/ui/pages/all/all_radio_stations_cubit.dart';
 import 'package:radio_online/feature/ui/pages/all/all_radio_stations_states.dart';
 
+import '../../../../audio/audio_player_handler.dart';
 import '../../../../core/providers/repository_scope.dart';
-import '../../widgets/radio_grid_widget.dart';
+import '../../widgets/radio_empty_widget.dart';
+import '../../widgets/radio_error_widget.dart';
+import '../../widgets/radio_list_widget.dart';
 
 class AllRadioStationsPage extends StatelessWidget {
   final AudioHandler? audioHandler;
@@ -23,46 +26,30 @@ class AllRadioStationsPage extends StatelessWidget {
         userCase: GetAllRadioStationsUserCase(
           repository: RepositoryScope.of(context).repository,
         ),
-      )..call(null),
+      )..call(),
       child: BlocBuilder<AllRadioStationsCubit, AllRadioStationsStates>(
         builder: (context, state) {
           switch (state) {
             case AllRadioStationsLoadedState():
               return Container(
                 color: context.colors.background,
-                child: RadioGridWidget(
+                child: RadioListWidget(
+                  null,
                   size: size,
+                  isFavoriteScreen: false,
                   stations: state.data,
                   onClick: (radioStationEntity) {
-                    audioHandler?.playMediaItem(
-                      MediaItem(
-                          id: radioStationEntity.url ?? '',
-                          title: radioStationEntity.name ?? '',
-                          displayTitle: radioStationEntity.name ?? '',
-                          displaySubtitle: radioStationEntity.country ?? '',
-                          artUri: Uri.parse(radioStationEntity.favicon ?? ''),
-                          duration: const Duration(
-                              hours: 24, minutes: 00, seconds: 00),
-                          extras: <String, bool>{
-                            'isLike': true,
-                          }),
-                    );
+                    (audioHandler as AudioPlayerHandler)
+                        .setRadioStation(radioStationEntity);
                   },
                 ),
               );
             case AllRadioStationsErrorState():
-              return Container(
-                color: context.colors.background,
-                child: Center(
-                  child: Text(
-                    style: TextStyle(
-                      color: context.colors.text,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    state.failure.toString(),
-                  ),
-                ),
+              return RadioErrorWidget(
+                failure: state.failure,
+                onSwipe: () {
+                  context.read<AllRadioStationsCubit>().update();
+                },
               );
             case AllRadioStationsLoadingState():
               return Container(
@@ -74,12 +61,7 @@ class AllRadioStationsPage extends StatelessWidget {
                 ),
               );
             case AllRadioStationsEmptyState():
-              return Container(
-                color: context.colors.selected,
-                child: const Center(
-                  child: Text('No data'),
-                ),
-              );
+              return const RadioEmptyWidget();
             default:
               return Container(
                 color: context.colors.background,
