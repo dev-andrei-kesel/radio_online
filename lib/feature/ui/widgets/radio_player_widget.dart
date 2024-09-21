@@ -23,10 +23,8 @@ class RadioPlayerWidget extends StatefulWidget {
 
 class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
   late AnimationController _controllerIcon;
-  late Animation<Offset> _animationName;
-  late Animation<Offset> _animationCountry;
+  late AnimationController _controller;
   late Animation<double> _animation;
   late Animation<double> _animationIcon;
 
@@ -89,45 +87,28 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
                   },
                 ),
                 Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Column(
-                    children: [
-                      AnimatedBuilder(
-                        animation: _animationCountry,
-                        child: Text(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      children: [
+                        Text(
                           mediaItem.title.toString(),
                           textAlign: TextAlign.center,
                           style: context.styles.header,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        builder: (context, child) {
-                          return Transform.translate(
-                            offset: _animationCountry.value,
-                            child: child,
-                          );
-                        },
-                      ),
-                      AnimatedBuilder(
-                        animation: _animationName,
-                        child: Text(
+                        Text(
                           mediaItem.displaySubtitle.toString(),
                           textAlign: TextAlign.center,
                           style: context.styles.header,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        builder: (context, child) {
-                          return Transform.translate(
-                            offset: _animationName.value,
-                            child: child,
-                          );
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )),
+                ),
                 Row(
                   children: [
                     IconButton(
@@ -147,8 +128,6 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
                         return isPlaying == true
                             ? IconButton(
                                 onPressed: () {
-                                  _controller.stop(canceled: false);
-                                  _controllerIcon.reset();
                                   context.read<RadioMainCubit>().onPause();
                                   audioHandler?.pause();
                                 },
@@ -158,8 +137,6 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
                               )
                             : IconButton(
                                 onPressed: () {
-                                  _controller.repeat(reverse: true);
-                                  _controllerIcon.repeat();
                                   context.read<RadioMainCubit>().onPlay();
                                   audioHandler?.play();
                                 },
@@ -180,7 +157,8 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
                         builder: (context, child) {
                           return Transform.scale(
                             scale: 1.0 + _animationIcon.value * 0.2,
-                            child: BlocBuilder<RadioFavouritesCubit, RadioFavouriteStates>(
+                            child: BlocBuilder<RadioFavouritesCubit,
+                                RadioFavouriteStates>(
                               builder: (context, state) {
                                 final station =
                                     (audioHandler as AudioPlayerHandler)
@@ -237,47 +215,44 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
       (widget.audioHandler as AudioPlayerHandler).station = station?.copyWith(
         isFavourite: false,
       );
-      context.read<RadioFavouritesCubit>().removeFavouriteRadioStations(station);
+      context
+          .read<RadioFavouritesCubit>()
+          .removeFavouriteRadioStations(station);
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     _controllerIcon.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   void _initAnimation() {
-    _controller = AnimationController(
+    _controllerIcon = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 4000),
     );
-    _controllerIcon = AnimationController(
+    _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     );
-    _animationName =
-        Tween(begin: const Offset(-10.0, 0.0), end: const Offset(10.0, 0.0))
-            .chain(
-              CurveTween(curve: Curves.linear),
-            )
-            .animate(
-              _controller..repeat(reverse: true),
-            );
-    _animationCountry =
-        Tween(begin: const Offset(50.0, 0.0), end: const Offset(-40.0, 0.0))
-            .chain(
-              CurveTween(curve: Curves.linear),
-            )
-            .animate(
-              _controller..repeat(reverse: true),
-            );
     _animation = Tween(begin: 0.0, end: 1.0).animate(
-      _controllerIcon..repeat(),
+      _controller..repeat(),
     );
     _animationIcon = Tween(begin: 0.0, end: 1.0).animate(
-      _controller..repeat(reverse: true),
+      _controllerIcon..repeat(reverse: true),
+    );
+    widget.audioHandler?.playbackState.listen(
+      (state) {
+        if (state.playing) {
+          _controllerIcon.repeat(reverse: true);
+          _controller.repeat();
+        } else {
+          _controllerIcon.stop(canceled: false);
+          _controller.stop();
+        }
+      },
     );
   }
 }

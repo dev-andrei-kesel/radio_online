@@ -12,6 +12,7 @@ import 'package:radio_online/feature/ui/widgets/bottom_navigation_bar.dart';
 
 import '../../../../common/string_resources.dart';
 import '../../widgets/radio_player_widget.dart';
+import '../../widgets/wavy_text_widget.dart';
 import '../favourites/radio_favourites_cubit.dart';
 import 'radio_main_states.dart';
 
@@ -62,7 +63,14 @@ class _MainScreenState extends State<MainScreen>
             backgroundColor: context.colors.background,
             foregroundColor: context.colors.text,
             centerTitle: true,
-            title: Text(style: context.styles.title, StringResources.title),
+            title:  WavyTextWidget(
+              audioHandler: audioHandler,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              textOverflow: TextOverflow.ellipsis,
+              style: context.styles.title,
+              text: StringResources.title,
+            ),
           ),
           body: BlocConsumer<RadioMainCubit, RadioMainStates>(
             builder: (context, state) => Stack(
