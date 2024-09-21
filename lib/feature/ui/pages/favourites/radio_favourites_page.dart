@@ -34,6 +34,10 @@ class RadioFavouritesPage extends StatelessWidget {
                       .setRadioStation(radioStationEntity);
                 },
                 (radioStationEntity) {
+                  (audioHandler as AudioPlayerHandler).station =
+                      (audioHandler as AudioPlayerHandler)
+                          .station
+                          ?.copyWith(isFavourite: false);
                   context
                       .read<RadioFavouritesCubit>()
                       .removeFavouriteRadioStations(radioStationEntity);
