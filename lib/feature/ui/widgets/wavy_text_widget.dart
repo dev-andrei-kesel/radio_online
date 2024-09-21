@@ -102,10 +102,14 @@ class _WavyTextState extends State<WavyTextWidget>
     );
     widget.audioHandler?.playbackState.listen(
       (state) {
-        if (state.playing) {
-          _controller.repeat();
-        } else {
-          _controller.stop();
+        try {
+          if (state.playing) {
+            _controller.repeat();
+          } else {
+            _controller.stop();
+          }
+        } catch (e) {
+          debugPrint(e.toString());
         }
       },
     );

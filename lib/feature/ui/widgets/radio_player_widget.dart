@@ -245,12 +245,16 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
     );
     widget.audioHandler?.playbackState.listen(
       (state) {
-        if (state.playing) {
-          _controllerIcon.repeat(reverse: true);
-          _controller.repeat();
-        } else {
-          _controllerIcon.stop(canceled: false);
-          _controller.stop();
+        try {
+          if (state.playing) {
+            _controllerIcon.repeat(reverse: true);
+            _controller.repeat();
+          } else {
+            _controllerIcon.stop(canceled: false);
+            _controller.stop();
+          }
+        } catch (e) {
+          debugPrint(e.toString());
         }
       },
     );
