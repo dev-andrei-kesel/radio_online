@@ -23,7 +23,6 @@ class RadioListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: stations?.length ?? 0,
-      padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
         return RadioStationWidget(
           isFavoriteScreen: isFavoriteScreen,

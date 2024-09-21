@@ -57,17 +57,19 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   }
 
   Future<void> setRadioStation(RadioStationEntity? station) async {
-    this.station = station;
-    playMediaItem(
-      MediaItem(
-        id: station?.url ?? '',
-        title: station?.country ?? '',
-        displayTitle: station?.name ?? '',
-        displaySubtitle: station?.name ?? '',
-        artUri: Uri.parse(station?.favicon ?? ''),
-        duration: const Duration(hours: 24, minutes: 00, seconds: 00),
-      ),
-    );
+    if (this.station == station && station != null) {
+      this.station = station;
+      playMediaItem(
+        MediaItem(
+          id: station.url ?? '',
+          title: station.name ?? '',
+          displayTitle: station.country ?? '',
+          displaySubtitle: station.name ?? '',
+          artUri: Uri.parse(station.favicon ?? ''),
+          duration: const Duration(hours: 24, minutes: 00, seconds: 00),
+        ),
+      );
+    }
   }
 
   PlaybackState _transformEvent(PlaybackEvent event) {

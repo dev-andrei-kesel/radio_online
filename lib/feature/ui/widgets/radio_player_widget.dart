@@ -92,7 +92,7 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
                     child: Column(
                       children: [
                         Text(
-                          mediaItem.title.toString(),
+                          mediaItem.displayTitle.toString(),
                           textAlign: TextAlign.center,
                           style: context.styles.header,
                           maxLines: 2,
