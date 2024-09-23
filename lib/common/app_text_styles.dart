@@ -7,13 +7,16 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
   final TextStyle? title;
   final TextStyle? text;
   final TextStyle? header;
+  final TextStyle? name;
+  final TextStyle? nameBold;
 
-  const AppTextStyles({
-    required this.colors,
-    required this.title,
-    required this.text,
-    required this.header,
-  });
+  const AppTextStyles(
+      {required this.colors,
+      required this.title,
+      required this.text,
+      required this.header,
+      required this.name,
+      required this.nameBold});
 
   factory AppTextStyles.fromColors(AppColors? colors) {
     return AppTextStyles(
@@ -31,6 +34,16 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       header: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.normal,
+        color: colors?.text,
+      ),
+      name: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: colors?.text,
+      ),
+      nameBold: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
         color: colors?.text,
       ),
     );

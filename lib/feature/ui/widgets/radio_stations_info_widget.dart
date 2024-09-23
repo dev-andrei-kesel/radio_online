@@ -23,6 +23,7 @@ class RadioStationsInfoWidget extends StatelessWidget {
               : radioStationEntity?.votes.toString(),
           color: Colors.orange,
         ),
+        const SizedBox(width: 12.0),
         RadioRatingWidget(
           icon: Icons.map,
           value: radioStationEntity?.countryCode == null
@@ -30,6 +31,7 @@ class RadioStationsInfoWidget extends StatelessWidget {
               : radioStationEntity?.countryCode.toString().toUpperCase(),
           color: Colors.green,
         ),
+        const SizedBox(width: 12.0),
         RadioRatingWidget(
           icon: Icons.language,
           value: radioStationEntity?.languageCodes == null
