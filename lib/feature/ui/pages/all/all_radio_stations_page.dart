@@ -11,6 +11,8 @@ import '../../../../core/providers/repository_scope.dart';
 import '../../widgets/radio_empty_widget.dart';
 import '../../widgets/radio_error_widget.dart';
 import '../../widgets/radio_vertical_list_widget.dart';
+import '../main/radio_main_cubit.dart';
+import '../main/radio_main_states.dart';
 
 class AllRadioStationsPage extends StatelessWidget {
   final AudioHandler? audioHandler;
@@ -27,50 +29,58 @@ class AllRadioStationsPage extends StatelessWidget {
           repository: RepositoryScope.of(context).repository,
         ),
       )..call(),
-      child: BlocBuilder<AllRadioStationsCubit, AllRadioStationsStates>(
-        builder: (context, state) {
-          switch (state) {
-            case AllRadioStationsLoadedState():
-              return Container(
-                color: context.colors.background,
-                child: RadioVerticalListWidget(
-                  null,
-                  size: size,
-                  isFavoriteScreen: false,
-                  stations: state.data,
-                  onClick: (radioStationEntity) {
-                    (audioHandler as AudioPlayerHandler)
-                        .setRadioStation(radioStationEntity);
+      child: BlocConsumer<RadioMainCubit, RadioMainStates>(
+        builder: (context, state) =>
+            BlocBuilder<AllRadioStationsCubit, AllRadioStationsStates>(
+          builder: (context, state) {
+            switch (state) {
+              case AllRadioStationsLoadedState():
+                return Container(
+                  color: context.colors.background,
+                  child: RadioVerticalListWidget(
+                    null,
+                    size: size,
+                    isFavoriteScreen: false,
+                    stations: state.data,
+                    onClick: (radioStationEntity) {
+                      (audioHandler as AudioPlayerHandler)
+                          .setRadioStation(radioStationEntity);
+                    },
+                  ),
+                );
+              case AllRadioStationsErrorState():
+                return RadioErrorWidget(
+                  failure: state.failure,
+                  onSwipe: () {
+                    context.read<AllRadioStationsCubit>().update();
                   },
-                ),
-              );
-            case AllRadioStationsErrorState():
-              return RadioErrorWidget(
-                failure: state.failure,
-                onSwipe: () {
-                  context.read<AllRadioStationsCubit>().update();
-                },
-              );
-            case AllRadioStationsLoadingState():
-              return Container(
-                color: context.colors.background,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: context.colors.text,
+                );
+              case AllRadioStationsLoadingState():
+                return Container(
+                  color: context.colors.background,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: context.colors.text,
+                    ),
                   ),
-                ),
-              );
-            case AllRadioStationsEmptyState():
-              return const RadioEmptyWidget();
-            default:
-              return Container(
-                color: context.colors.background,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: context.colors.text,
+                );
+              case AllRadioStationsEmptyState():
+                return const RadioEmptyWidget();
+              default:
+                return Container(
+                  color: context.colors.background,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: context.colors.text,
+                    ),
                   ),
-                ),
-              );
+                );
+            }
+          },
+        ),
+        listener: (context, state) {
+          if (state is OnSearch) {
+            debugPrint(state.query);
           }
         },
       ),

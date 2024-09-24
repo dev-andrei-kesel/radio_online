@@ -33,10 +33,12 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late TextEditingController _searchController;
 
   @override
   void initState() {
     _initAnimation();
+    _searchController = TextEditingController();
     super.initState();
   }
 
@@ -58,29 +60,68 @@ class _MainScreenState extends State<MainScreen>
             )..call(),
           ),
         ],
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: context.colors.background,
-            foregroundColor: context.colors.text,
-            centerTitle: true,
-            title:  WavyTextWidget(
-              audioHandler: audioHandler,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              textOverflow: TextOverflow.ellipsis,
-              style: context.styles.title,
-              text: StringResources.title,
+        child: BlocConsumer<RadioMainCubit, RadioMainStates>(
+          builder: (context, state) => Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 80,
+              backgroundColor: context.colors.background,
+              foregroundColor: context.colors.text,
+              centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                  onPressed: () {
+                    RadioMainCubit cubit =
+                        BlocProvider.of<RadioMainCubit>(context);
+                    if (cubit.query.isNotEmpty) {
+                      _searchController.text = '';
+                      cubit.onSearch(cubit.query);
+                    } else {
+                      !context.read<RadioMainCubit>().enable &&
+                              context.read<RadioMainCubit>().query.isEmpty
+                          ? cubit.enableSearch(true)
+                          : cubit.enableSearch(false);
+                    }
+                  },
+                  icon: Icon(
+                    !context.read<RadioMainCubit>().enable &&
+                            context.read<RadioMainCubit>().query.isEmpty
+                        ? Icons.search
+                        : context.read<RadioMainCubit>().enable &&
+                                context.read<RadioMainCubit>().query.isEmpty
+                            ? Icons.clear
+                            : Icons.search,
+                  ),
+                ),
+              ],
+              title: context.read<RadioMainCubit>().enable
+                  ? SearchBar(
+                      controller: _searchController,
+                      backgroundColor: WidgetStatePropertyAll(
+                          context.colors.unselected.withOpacity(0.75)),
+                      hintText: StringResources.hintSearch,
+                      onChanged: (text) {
+                        BlocProvider.of<RadioMainCubit>(context)
+                            .onChanged(text);
+                      },
+                      elevation: WidgetStateProperty.all(0),
+                    )
+                  : WavyTextWidget(
+                      audioHandler: audioHandler,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      textOverflow: TextOverflow.ellipsis,
+                      style: context.styles.title,
+                      text: StringResources.title,
+                    ),
             ),
-          ),
-          body: BlocConsumer<RadioMainCubit, RadioMainStates>(
-            builder: (context, state) => Stack(
+            body: Stack(
               children: [
                 widget.navigationShell,
                 AnimatedBuilder(
                   animation: _animation,
                   child: Center(
                     child: Icon(
-                      context.read<RadioMainCubit>().icon,
+                      context.watch<RadioMainCubit>().icon,
                       size: size.width,
                       color: Colors.white.withOpacity(0.35),
                     ),
@@ -94,35 +135,35 @@ class _MainScreenState extends State<MainScreen>
                 ),
               ],
             ),
-            listener: (context, state) {
-              _playerStateHandler(state);
-            },
-          ),
-          bottomNavigationBar: Container(
-            color: context.colors.background,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 4.0),
-                  child: StreamBuilder<PlaybackState>(
-                    stream: audioHandler?.playbackState ??
-                        Stream.value(PlaybackState()),
-                    builder: (context, snapshot) {
-                      final playbackState = snapshot.data;
-                      return _isVisiblePlayer(playbackState)
-                          ? RadioPlayerWidget(audioHandler: audioHandler)
-                          : const SizedBox();
-                    },
+            bottomNavigationBar: Container(
+              color: context.colors.background,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
+                    child: StreamBuilder<PlaybackState>(
+                      stream: audioHandler?.playbackState ??
+                          Stream.value(PlaybackState()),
+                      builder: (context, snapshot) {
+                        final playbackState = snapshot.data;
+                        return _isVisiblePlayer(playbackState)
+                            ? RadioPlayerWidget(audioHandler: audioHandler)
+                            : const SizedBox();
+                      },
+                    ),
                   ),
-                ),
-                RadioBottomNavigationBar(
-                  navigationShell: widget.navigationShell,
-                ),
-              ],
+                  RadioBottomNavigationBar(
+                    navigationShell: widget.navigationShell,
+                  ),
+                ],
+              ),
             ),
           ),
+          listener: (context, state) {
+            _playerStateHandler(state);
+          },
         ),
       ),
     );
@@ -137,6 +178,7 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   void dispose() {
+    _searchController.dispose();
     _controller.dispose();
     super.dispose();
   }

@@ -14,4 +14,5 @@ class StringResources {
   static const String language = 'Language:';
   static const String genre = 'Genre:';
   static const String homepage = 'Home page:';
+  static const String hintSearch = 'Search name, genre, language, country...';
 }

@@ -4,6 +4,8 @@ import 'package:radio_online/feature/ui/pages/main/radio_main_states.dart';
 
 class RadioMainCubit extends Cubit<RadioMainStates> {
   IconData? icon = Icons.pause;
+  String query = '';
+  bool enable = false;
 
   RadioMainCubit() : super(DefaultState());
 
@@ -25,5 +27,21 @@ class RadioMainCubit extends Cubit<RadioMainStates> {
   Future<void> onLike() async {
     icon = Icons.favorite;
     emit(OnLikeState());
+  }
+
+  void onSearch(String query) {
+    emit(OnSearch(query: query));
+    this.query = '';
+  }
+
+  void onChanged(String query) {
+    this.query = query.trim();
+    emit(OnChanged(query: query));
+  }
+
+  void enableSearch(bool enable) {
+    this.enable = enable;
+    enable ? query = '' : query = '';
+    emit(EnableSearch(enable: enable));
   }
 }
