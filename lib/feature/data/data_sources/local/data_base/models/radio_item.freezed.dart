@@ -34,8 +34,12 @@ mixin _$RadioItem {
   int? get votes => throw _privateConstructorUsedError;
   String? get codec => throw _privateConstructorUsedError;
 
+  /// Serializes this RadioItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RadioItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RadioItemCopyWith<RadioItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +75,8 @@ class _$RadioItemCopyWithImpl<$Res, $Val extends RadioItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RadioItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,6 +183,8 @@ class __$$RadioItemImplCopyWithImpl<$Res>
       _$RadioItemImpl _value, $Res Function(_$RadioItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RadioItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -329,7 +337,7 @@ class _$RadioItemImpl implements _RadioItem {
             (identical(other.codec, codec) || other.codec == codec));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -347,7 +355,9 @@ class _$RadioItemImpl implements _RadioItem {
       votes,
       codec);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RadioItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RadioItemImplCopyWith<_$RadioItemImpl> get copyWith =>
@@ -406,8 +416,11 @@ abstract class _RadioItem implements RadioItem {
   int? get votes;
   @override
   String? get codec;
+
+  /// Create a copy of RadioItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RadioItemImplCopyWith<_$RadioItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

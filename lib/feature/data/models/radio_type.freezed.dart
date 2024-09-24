@@ -22,10 +22,14 @@ RadioType _$RadioTypeFromJson(Map<String, dynamic> json) {
 mixin _$RadioType {
   String? get name => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
-  String? get stationcount => throw _privateConstructorUsedError;
+  int? get stationcount => throw _privateConstructorUsedError;
 
+  /// Serializes this RadioType to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RadioType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RadioTypeCopyWith<RadioType> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35,7 +39,7 @@ abstract class $RadioTypeCopyWith<$Res> {
   factory $RadioTypeCopyWith(RadioType value, $Res Function(RadioType) then) =
       _$RadioTypeCopyWithImpl<$Res, RadioType>;
   @useResult
-  $Res call({String? name, String? code, String? stationcount});
+  $Res call({String? name, String? code, int? stationcount});
 }
 
 /// @nodoc
@@ -48,6 +52,8 @@ class _$RadioTypeCopyWithImpl<$Res, $Val extends RadioType>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RadioType
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -67,7 +73,7 @@ class _$RadioTypeCopyWithImpl<$Res, $Val extends RadioType>
       stationcount: freezed == stationcount
           ? _value.stationcount
           : stationcount // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
     ) as $Val);
   }
 }
@@ -80,7 +86,7 @@ abstract class _$$RadioTypeImplCopyWith<$Res>
       __$$RadioTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? code, String? stationcount});
+  $Res call({String? name, String? code, int? stationcount});
 }
 
 /// @nodoc
@@ -91,6 +97,8 @@ class __$$RadioTypeImplCopyWithImpl<$Res>
       _$RadioTypeImpl _value, $Res Function(_$RadioTypeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RadioType
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,7 +118,7 @@ class __$$RadioTypeImplCopyWithImpl<$Res>
       stationcount: freezed == stationcount
           ? _value.stationcount
           : stationcount // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
     ));
   }
 }
@@ -129,7 +137,7 @@ class _$RadioTypeImpl implements _RadioType {
   @override
   final String? code;
   @override
-  final String? stationcount;
+  final int? stationcount;
 
   @override
   String toString() {
@@ -147,11 +155,13 @@ class _$RadioTypeImpl implements _RadioType {
                 other.stationcount == stationcount));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, code, stationcount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RadioType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RadioTypeImplCopyWith<_$RadioTypeImpl> get copyWith =>
@@ -169,7 +179,7 @@ abstract class _RadioType implements RadioType {
   const factory _RadioType(
       {required final String? name,
       required final String? code,
-      required final String? stationcount}) = _$RadioTypeImpl;
+      required final int? stationcount}) = _$RadioTypeImpl;
 
   factory _RadioType.fromJson(Map<String, dynamic> json) =
       _$RadioTypeImpl.fromJson;
@@ -179,9 +189,12 @@ abstract class _RadioType implements RadioType {
   @override
   String? get code;
   @override
-  String? get stationcount;
+  int? get stationcount;
+
+  /// Create a copy of RadioType
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RadioTypeImplCopyWith<_$RadioTypeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

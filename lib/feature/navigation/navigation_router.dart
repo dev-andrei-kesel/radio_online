@@ -5,11 +5,11 @@ import 'package:radio_online/feature/ui/pages/main/main_page.dart';
 
 import '../domain/entities/radio_station_entity.dart';
 import '../ui/pages/all/all_radio_stations_page.dart';
-import '../ui/pages/country/radio_country_page.dart';
+import '../ui/pages/country/radio_country_stations_page.dart';
 import '../ui/pages/favourites/radio_favourites_page.dart';
-import '../ui/pages/genre/radio_genre_page.dart';
+import '../ui/pages/genre/radio_genre_stations_page.dart';
 import '../ui/pages/info/info_radio_station_page.dart';
-import '../ui/pages/language/radio_language_page.dart';
+import '../ui/pages/language/radio_language_stations_page.dart';
 
 class NavigationRouter {
   static AudioHandler? _audioHandler;

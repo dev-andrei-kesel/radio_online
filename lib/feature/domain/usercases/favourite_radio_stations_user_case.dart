@@ -10,17 +10,14 @@ class FavouriteRadioStationsUserCase<Params>
   FavouriteRadioStationsUserCase({required this.repository});
 
   @override
-  Future<List<RadioStationEntity>?> call(Params? params) async {
-    return repository.getFavouriteRadioStations();
-  }
+  Future<List<RadioStationEntity>?> call(Params? params) async =>
+      repository.getFavouriteRadioStations();
 
   Future<void> addFavouriteRadioStations(
-      RadioStationEntity radioStation) async {
-    repository.addFavouriteRadioStations(radioStation);
-  }
+          RadioStationEntity radioStation) async =>
+      repository.addFavouriteRadioStations(radioStation);
 
   Future<void> removeFavouriteRadioStations(
-      RadioStationEntity radioStation) async {
-    repository.removeFavouriteRadioStations(radioStation);
-  }
+          RadioStationEntity radioStation) async =>
+      repository.removeFavouriteRadioStations(radioStation);
 }

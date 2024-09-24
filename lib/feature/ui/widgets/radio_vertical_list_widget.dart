@@ -3,14 +3,14 @@ import 'package:radio_online/feature/ui/widgets/radio_station_widget.dart';
 
 import '../../domain/entities/radio_station_entity.dart';
 
-class RadioListWidget extends StatelessWidget {
+class RadioVerticalListWidget extends StatelessWidget {
   final bool isFavoriteScreen;
   final List<RadioStationEntity>? stations;
   final Size size;
   final Function(RadioStationEntity?) onClick;
   final Function(RadioStationEntity?)? onDeleteStation;
 
-  const RadioListWidget(
+  const RadioVerticalListWidget(
     this.onDeleteStation, {
     super.key,
     required this.size,

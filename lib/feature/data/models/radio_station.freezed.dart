@@ -57,8 +57,12 @@ mixin _$RadioStation {
   double? get geo_long => throw _privateConstructorUsedError;
   bool? get has_extended_info => throw _privateConstructorUsedError;
 
+  /// Serializes this RadioStation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RadioStation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RadioStationCopyWith<RadioStation> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -118,6 +122,8 @@ class _$RadioStationCopyWithImpl<$Res, $Val extends RadioStation>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RadioStation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -362,6 +368,8 @@ class __$$RadioStationImplCopyWithImpl<$Res>
       _$RadioStationImpl _value, $Res Function(_$RadioStationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RadioStation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -744,7 +752,7 @@ class _$RadioStationImpl implements _RadioStation {
                 other.has_extended_info == has_extended_info));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -786,7 +794,9 @@ class _$RadioStationImpl implements _RadioStation {
         has_extended_info
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RadioStation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RadioStationImplCopyWith<_$RadioStationImpl> get copyWith =>
@@ -914,8 +924,11 @@ abstract class _RadioStation implements RadioStation {
   double? get geo_long;
   @override
   bool? get has_extended_info;
+
+  /// Create a copy of RadioStation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RadioStationImplCopyWith<_$RadioStationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

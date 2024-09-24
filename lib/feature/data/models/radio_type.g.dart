@@ -10,7 +10,7 @@ _$RadioTypeImpl _$$RadioTypeImplFromJson(Map<String, dynamic> json) =>
     _$RadioTypeImpl(
       name: json['name'] as String?,
       code: json['code'] as String?,
-      stationcount: json['stationcount'] as String?,
+      stationcount: (json['stationcount'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$RadioTypeImplToJson(_$RadioTypeImpl instance) =>

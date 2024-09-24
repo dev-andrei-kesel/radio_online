@@ -21,7 +21,8 @@ class RadioRepositoryImpl implements RadioRepository {
     List<RadioStation> response = await radioRemoteDataSource.getAllStations();
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
-    return response.where((RadioStation e) {
+    return response.reversed.where((RadioStation e) {
+      response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
       return e.url != null &&
           e.url?.isNotEmpty == true &&
           e.name != null &&
@@ -50,8 +51,8 @@ class RadioRepositoryImpl implements RadioRepository {
         await radioRemoteDataSource.searchByCountry(country: country);
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
-
-    return response.where((RadioStation e) {
+    response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
+    return response.reversed.where((RadioStation e) {
       return e.url != null &&
           e.url?.isNotEmpty == true &&
           e.name != null &&
@@ -80,8 +81,8 @@ class RadioRepositoryImpl implements RadioRepository {
         await radioRemoteDataSource.searchByGenre(genre: genre);
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
-
-    return response.where((RadioStation e) {
+    response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
+    return response.reversed.where((RadioStation e) {
       return e.url != null &&
           e.url?.isNotEmpty == true &&
           e.name != null &&
@@ -110,8 +111,8 @@ class RadioRepositoryImpl implements RadioRepository {
         await radioRemoteDataSource.searchByLanguage(language: language);
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
-
-    return response.where((RadioStation e) {
+    response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
+    return response.reversed.where((RadioStation e) {
       return e.url != null &&
           e.url?.isNotEmpty == true &&
           e.name != null &&
@@ -140,8 +141,8 @@ class RadioRepositoryImpl implements RadioRepository {
         await radioRemoteDataSource.searchByStationName(name: name);
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
-
-    return response.where((RadioStation e) {
+    response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
+    return response.reversed.where((RadioStation e) {
       return e.url != null &&
           e.url?.isNotEmpty == true &&
           e.name != null &&
@@ -165,17 +166,35 @@ class RadioRepositoryImpl implements RadioRepository {
 
   @override
   Future<List<RadioType>> getAllCountries() async {
-    return radioRemoteDataSource.getAllCountries();
+    return (await radioRemoteDataSource.getAllCountries()).where(
+      (RadioType e) {
+        return e.name != null &&
+            e.name?.isNotEmpty == true &&
+            (e.stationcount ?? 0) > 0;
+      },
+    ).toList();
   }
 
   @override
   Future<List<RadioType>> getAllTags() async {
-    return radioRemoteDataSource.getAllTags();
+    return (await radioRemoteDataSource.getAllTags()).where(
+      (RadioType e) {
+        return e.name != null &&
+            e.name?.isNotEmpty == true &&
+            (e.stationcount ?? 0) > 0;
+      },
+    ).toList();
   }
 
   @override
   Future<List<RadioType>> getAllLanguages() async {
-    return radioRemoteDataSource.getAllLanguages();
+    return (await radioRemoteDataSource.getAllLanguages()).where(
+      (RadioType e) {
+        return e.name != null &&
+            e.name?.isNotEmpty == true &&
+            (e.stationcount ?? 0) > 0;
+      },
+    ).toList();
   }
 
   @override

@@ -10,7 +10,6 @@ class GetAllRadioStationsUserCase<Params>
   GetAllRadioStationsUserCase({required this.repository});
 
   @override
-  Future<List<RadioStationEntity>?> call(Params? params) async {
-    return await repository.getAllStations();
-  }
+  Future<List<RadioStationEntity>?> call(Params? params) async =>
+      repository.getAllStations();
 }

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     AppColors colorsLight = ColorsLight();
     return MaterialApp.router(
       title: StringResources.title,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       darkTheme: ThemeData(
         extensions: [colorsDark, AppTextStyles.fromColors(colorsDark)],
         useMaterial3: true,

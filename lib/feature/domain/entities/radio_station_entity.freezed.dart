@@ -35,8 +35,12 @@ mixin _$RadioStationEntity {
   String? get codec => throw _privateConstructorUsedError;
   bool? get isFavourite => throw _privateConstructorUsedError;
 
+  /// Serializes this RadioStationEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RadioStationEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RadioStationEntityCopyWith<RadioStationEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,6 +78,8 @@ class _$RadioStationEntityCopyWithImpl<$Res, $Val extends RadioStationEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RadioStationEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -186,6 +192,8 @@ class __$$RadioStationEntityImplCopyWithImpl<$Res>
       $Res Function(_$RadioStationEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RadioStationEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -349,7 +357,7 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
                 other.isFavourite == isFavourite));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -368,7 +376,9 @@ class _$RadioStationEntityImpl implements _RadioStationEntity {
       codec,
       isFavourite);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RadioStationEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RadioStationEntityImplCopyWith<_$RadioStationEntityImpl> get copyWith =>
@@ -431,8 +441,11 @@ abstract class _RadioStationEntity implements RadioStationEntity {
   String? get codec;
   @override
   bool? get isFavourite;
+
+  /// Create a copy of RadioStationEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RadioStationEntityImplCopyWith<_$RadioStationEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

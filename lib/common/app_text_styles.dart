@@ -16,7 +16,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       required this.text,
       required this.header,
       required this.name,
-      required this.nameBold});
+      required this.nameBold,});
 
   factory AppTextStyles.fromColors(AppColors? colors) {
     return AppTextStyles(

@@ -8,7 +8,7 @@ import 'package:radio_online/feature/ui/pages/favourites/radio_favourites_cubit.
 import '../../../../audio/audio_player_handler.dart';
 import '../../widgets/radio_empty_widget.dart';
 import '../../widgets/radio_error_widget.dart';
-import '../../widgets/radio_list_widget.dart';
+import '../../widgets/radio_vertical_list_widget.dart';
 
 class RadioFavouritesPage extends StatelessWidget {
   final AudioHandler? audioHandler;
@@ -25,7 +25,7 @@ class RadioFavouritesPage extends StatelessWidget {
           case FavouriteRadioStationsLoadedState():
             return Container(
               color: context.colors.background,
-              child: RadioListWidget(
+              child: RadioVerticalListWidget(
                 size: size,
                 isFavoriteScreen: true,
                 stations: state.data,

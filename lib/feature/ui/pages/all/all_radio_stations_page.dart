@@ -10,7 +10,7 @@ import '../../../../audio/audio_player_handler.dart';
 import '../../../../core/providers/repository_scope.dart';
 import '../../widgets/radio_empty_widget.dart';
 import '../../widgets/radio_error_widget.dart';
-import '../../widgets/radio_list_widget.dart';
+import '../../widgets/radio_vertical_list_widget.dart';
 
 class AllRadioStationsPage extends StatelessWidget {
   final AudioHandler? audioHandler;
@@ -33,7 +33,7 @@ class AllRadioStationsPage extends StatelessWidget {
             case AllRadioStationsLoadedState():
               return Container(
                 color: context.colors.background,
-                child: RadioListWidget(
+                child: RadioVerticalListWidget(
                   null,
                   size: size,
                   isFavoriteScreen: false,

@@ -12,6 +12,8 @@ class ColorsLight extends AppColors {
   @override
   Color selected;
   @override
+  Color chipSelected;
+  @override
   Color unselected;
 
   ColorsLight({
@@ -19,6 +21,7 @@ class ColorsLight extends AppColors {
     this.onBackground = Colors.white,
     this.text = Colors.black,
     this.selected = Colors.black,
+    this.chipSelected = Colors.amber,
     this.unselected = Colors.white,
   });
 
@@ -28,6 +31,7 @@ class ColorsLight extends AppColors {
     Color? onBackground,
     Color? text,
     Color? selected,
+    Color? chipSelected,
     Color? unselected,
   }) {
     return ColorsLight(
@@ -35,6 +39,7 @@ class ColorsLight extends AppColors {
       onBackground: onBackground ?? Colors.white,
       text: text ?? Colors.black,
       selected: selected ?? Colors.black,
+      chipSelected: chipSelected ?? Colors.amber,
       unselected: unselected ?? Colors.white,
     );
   }
