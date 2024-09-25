@@ -6,8 +6,13 @@ import '../../navigation/navigation_router.dart';
 
 class RadioBottomNavigationBar extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
+  final VoidCallback onTap;
 
-  const RadioBottomNavigationBar({super.key, required this.navigationShell});
+  const RadioBottomNavigationBar({
+    super.key,
+    required this.navigationShell,
+    required this.onTap,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -56,8 +61,10 @@ class _RadioBottomNavigationBarState extends State<RadioBottomNavigationBar> {
       showSelectedLabels: true,
       selectedLabelStyle: TextStyle(
           color: context.colors.selected, fontWeight: FontWeight.bold),
-      onTap: (index) =>
-          _goBranch(index: index, navigationShell: navigationShell),
+      onTap: (index) {
+        widget.onTap();
+        _goBranch(index: index, navigationShell: navigationShell);
+      },
       useLegacyColorScheme: false,
     );
   }

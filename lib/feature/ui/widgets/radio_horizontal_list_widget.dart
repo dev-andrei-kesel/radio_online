@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:radio_online/common/app_text_styles.dart';
 import 'package:radio_online/common/colors_dark.dart';
 import 'package:radio_online/feature/data/models/radio_type.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class RadioHorizontalListWidget extends StatelessWidget {
   final List<RadioType> types;
   final RadioType? type;
   final Function(RadioType?) onSelected;
   final PageStorageBucket pageStorageBucket;
+  final ItemScrollController? itemScrollController;
 
-  const RadioHorizontalListWidget(
-      {super.key,
-      required this.types,
-      required this.type,
-      required this.onSelected,
-      required this.pageStorageBucket});
+  const RadioHorizontalListWidget({
+    super.key,
+    required this.types,
+    required this.type,
+    required this.onSelected,
+    required this.pageStorageBucket,
+    required this.itemScrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,8 @@ class RadioHorizontalListWidget extends StatelessWidget {
       bucket: pageStorageBucket,
       child: SizedBox(
         height: 60.0,
-        child: ListView.builder(
+        child: ScrollablePositionedList.builder(
+          itemScrollController: itemScrollController,
           scrollDirection: Axis.horizontal,
           itemCount: types.length,
           itemBuilder: (context, index) {

@@ -10,12 +10,6 @@ class OnStopState extends RadioMainStates {}
 
 class OnLikeState extends RadioMainStates {}
 
-class OnSearch extends RadioMainStates {
-  final String query;
-
-  OnSearch({required this.query});
-}
-
 class OnChanged extends RadioMainStates {
   final String query;
 

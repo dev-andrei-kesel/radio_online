@@ -63,18 +63,17 @@ class _MainScreenState extends State<MainScreen>
         child: BlocConsumer<RadioMainCubit, RadioMainStates>(
           builder: (context, state) => Scaffold(
             appBar: AppBar(
-              toolbarHeight: 80,
+              toolbarHeight: 70,
               backgroundColor: context.colors.background,
               foregroundColor: context.colors.text,
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
                   onPressed: () {
-                    RadioMainCubit cubit =
-                        BlocProvider.of<RadioMainCubit>(context);
+                    RadioMainCubit cubit = context.read<RadioMainCubit>();
                     if (cubit.query.isNotEmpty) {
                       _searchController.text = '';
-                      cubit.onSearch(cubit.query);
+                      cubit.onChanged('');
                     } else {
                       !context.read<RadioMainCubit>().enable &&
                               context.read<RadioMainCubit>().query.isEmpty
@@ -82,26 +81,31 @@ class _MainScreenState extends State<MainScreen>
                           : cubit.enableSearch(false);
                     }
                   },
-                  icon: Icon(
-                    !context.read<RadioMainCubit>().enable &&
-                            context.read<RadioMainCubit>().query.isEmpty
-                        ? Icons.search
-                        : context.read<RadioMainCubit>().enable &&
-                                context.read<RadioMainCubit>().query.isEmpty
-                            ? Icons.clear
-                            : Icons.search,
-                  ),
+                  icon: Icon(!context.read<RadioMainCubit>().enable &&
+                          context.read<RadioMainCubit>().query.isEmpty
+                      ? Icons.search
+                      : Icons.clear),
                 ),
               ],
               title: context.read<RadioMainCubit>().enable
                   ? SearchBar(
                       controller: _searchController,
                       backgroundColor: WidgetStatePropertyAll(
-                          context.colors.unselected.withOpacity(0.75)),
+                        context.colors.selected.withOpacity(0.15),
+                      ),
                       hintText: StringResources.hintSearch,
+                      hintStyle: WidgetStatePropertyAll(
+                        TextStyle(
+                          color: context.colors.selected.withOpacity(0.5),
+                        ),
+                      ),
+                      textStyle: WidgetStatePropertyAll(
+                        TextStyle(
+                          color: context.colors.selected,
+                        ),
+                      ),
                       onChanged: (text) {
-                        BlocProvider.of<RadioMainCubit>(context)
-                            .onChanged(text);
+                        context.read<RadioMainCubit>().onChanged(text);
                       },
                       elevation: WidgetStateProperty.all(0),
                     )
@@ -156,6 +160,10 @@ class _MainScreenState extends State<MainScreen>
                   ),
                   RadioBottomNavigationBar(
                     navigationShell: widget.navigationShell,
+                    onTap: () {
+                      _searchController.text = '';
+                      context.read<RadioMainCubit>().enableSearch(false);
+                    },
                   ),
                 ],
               ),
@@ -169,18 +177,18 @@ class _MainScreenState extends State<MainScreen>
     );
   }
 
-  bool _isVisiblePlayer(PlaybackState? playbackState) {
-    return playbackState?.processingState.name ==
-            ProcessingState.loading.name ||
-        playbackState?.processingState.name == ProcessingState.buffering.name ||
-        playbackState?.processingState.name == ProcessingState.ready.name;
-  }
-
   @override
   void dispose() {
     _searchController.dispose();
     _controller.dispose();
     super.dispose();
+  }
+
+  bool _isVisiblePlayer(PlaybackState? playbackState) {
+    return playbackState?.processingState.name ==
+            ProcessingState.loading.name ||
+        playbackState?.processingState.name == ProcessingState.buffering.name ||
+        playbackState?.processingState.name == ProcessingState.ready.name;
   }
 
   void _initAnimation() {

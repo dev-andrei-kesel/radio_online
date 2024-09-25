@@ -79,8 +79,8 @@ class AllRadioStationsPage extends StatelessWidget {
           },
         ),
         listener: (context, state) {
-          if (state is OnSearch) {
-            debugPrint(state.query);
+          if (state is OnChanged) {
+            context.read<AllRadioStationsCubit>().search(state.query);
           }
         },
       ),

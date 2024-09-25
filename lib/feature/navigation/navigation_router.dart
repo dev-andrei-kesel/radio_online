@@ -59,8 +59,10 @@ class NavigationRouter {
             routes: [
               GoRoute(
                 path: RadioCountryPage.routeName,
-                builder: (context, state) =>
-                    RadioCountryPage(audioHandler: _audioHandler),
+                builder: (context, state) => RadioCountryPage(
+                  audioHandler: _audioHandler,
+                  pageStorageBucket: PageStorageBucket(),
+                ),
               ),
             ],
           ),
@@ -69,8 +71,10 @@ class NavigationRouter {
             routes: [
               GoRoute(
                 path: RadioGenrePage.routeName,
-                builder: (context, state) =>
-                    RadioGenrePage(audioHandler: _audioHandler),
+                builder: (context, state) => RadioGenrePage(
+                  audioHandler: _audioHandler,
+                  pageStorageBucket: PageStorageBucket(),
+                ),
               ),
             ],
           ),
@@ -79,8 +83,10 @@ class NavigationRouter {
             routes: [
               GoRoute(
                 path: RadioLanguagePage.routeName,
-                builder: (context, state) =>
-                    RadioLanguagePage(audioHandler: _audioHandler),
+                builder: (context, state) => RadioLanguagePage(
+                  audioHandler: _audioHandler,
+                  pageStorageBucket: PageStorageBucket(),
+                ),
               ),
             ],
           ),

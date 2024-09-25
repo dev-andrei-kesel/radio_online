@@ -29,11 +29,6 @@ class RadioMainCubit extends Cubit<RadioMainStates> {
     emit(OnLikeState());
   }
 
-  void onSearch(String query) {
-    emit(OnSearch(query: query));
-    this.query = '';
-  }
-
   void onChanged(String query) {
     this.query = query.trim();
     emit(OnChanged(query: query));
@@ -41,7 +36,7 @@ class RadioMainCubit extends Cubit<RadioMainStates> {
 
   void enableSearch(bool enable) {
     this.enable = enable;
-    enable ? query = '' : query = '';
+    onChanged('');
     emit(EnableSearch(enable: enable));
   }
 }

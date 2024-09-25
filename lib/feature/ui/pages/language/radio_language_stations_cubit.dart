@@ -5,11 +5,26 @@ import 'package:radio_online/feature/ui/pages/language/radio_language_stations_s
 import '../../../../core/result/result.dart';
 import '../../../../core/use_cases/use_case.dart';
 import '../../../data/models/radio_type.dart';
+import '../../../domain/entities/radio_station_entity.dart';
 
 class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
   final UseCase userCase;
+  final List<RadioType> _languages = [];
   final List<RadioType> languages = [];
+  final List<RadioStationEntity> _stations = [];
+
+  List<RadioStationEntity> get _filteredStations => _stations
+      .where((e) =>
+          e.name?.toLowerCase().contains(query.toLowerCase()) == true ||
+          e.country?.toLowerCase().contains(query.toLowerCase()) == true ||
+          e.countryCode?.toLowerCase().contains(query.toLowerCase()) == true ||
+          e.language?.toLowerCase().contains(query.toLowerCase()) == true ||
+          e.languageCodes?.toLowerCase().contains(query.toLowerCase()) ==
+              true ||
+          e.tags?.toLowerCase().contains(query.toLowerCase()) == true)
+      .toList();
   RadioType? language;
+  String query = '';
 
   RadioLanguageStationsCubit({required this.userCase})
       : super(RadioLanguageStationsLoadingState());
@@ -25,7 +40,9 @@ class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
         if (result.data == null || result.data.isEmpty) {
           emit(RadioLanguageStationsEmptyState());
         } else {
-          emit(RadioLanguageStationsLoadedState(data: result.data));
+          _stations.clear();
+          _stations.addAll(result.data);
+          emit(RadioLanguageStationsLoadedState(data: _filteredStations));
         }
       case Error():
         emit(RadioLanguageStationsErrorState(failure: result.failure));
@@ -40,6 +57,7 @@ class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
     languages
         .sort((a, b) => a.stationcount?.compareTo(b.stationcount ?? 0) ?? 0);
     this.languages.addAll(languages.reversed);
+    _languages.addAll(languages.reversed);
     return languages.reversed.toList();
   }
 
@@ -47,5 +65,32 @@ class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
     emit(RadioLanguageStationsLoadingState());
     this.language = language;
     call(language?.name);
+  }
+
+  Future<void> search(String query) async {
+    this.query = query;
+    List<RadioType> languages = _languages
+        .where(
+            (e) => e.name?.toLowerCase().contains(query.toLowerCase()) == true)
+        .toList();
+
+    List<RadioStationEntity> stations = _filteredStations;
+
+    if (languages.isEmpty || query.isEmpty) {
+      this.languages.clear();
+      this.languages.addAll(_languages);
+    } else {
+      this.languages.clear();
+      this.languages.addAll(languages);
+    }
+
+    if (stations.isEmpty) {
+      emit(RadioLanguageStationsEmptyState());
+    } else {
+      emit(
+        RadioLanguageStationsLoadedState(
+            data: query.isEmpty ? _filteredStations : stations),
+      );
+    }
   }
 }

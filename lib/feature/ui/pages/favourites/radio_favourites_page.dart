@@ -9,6 +9,8 @@ import '../../../../audio/audio_player_handler.dart';
 import '../../widgets/radio_empty_widget.dart';
 import '../../widgets/radio_error_widget.dart';
 import '../../widgets/radio_vertical_list_widget.dart';
+import '../main/radio_main_cubit.dart';
+import '../main/radio_main_states.dart';
 
 class RadioFavouritesPage extends StatelessWidget {
   final AudioHandler? audioHandler;
@@ -19,56 +21,63 @@ class RadioFavouritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocBuilder<RadioFavouritesCubit, RadioFavouriteStates>(
-      builder: (context, state) {
-        switch (state) {
-          case FavouriteRadioStationsLoadedState():
-            return Container(
-              color: context.colors.background,
-              child: RadioVerticalListWidget(
-                size: size,
-                isFavoriteScreen: true,
-                stations: state.data,
-                onClick: (radioStationEntity) {
-                  (audioHandler as AudioPlayerHandler)
-                      .setRadioStation(radioStationEntity);
-                },
-                (radioStationEntity) {
-                  (audioHandler as AudioPlayerHandler).station =
-                      (audioHandler as AudioPlayerHandler)
-                          .station
-                          ?.copyWith(isFavourite: false);
-                  context
-                      .read<RadioFavouritesCubit>()
-                      .removeFavouriteRadioStations(radioStationEntity);
-                },
-              ),
-            );
-          case FavouriteRadioStationsErrorState():
-            return RadioErrorWidget(
-              failure: state.failure,
-              onSwipe: null,
-            );
-          case FavouriteRadioStationsLoadingState():
-            return Container(
-              color: context.colors.background,
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: context.colors.text,
+    return BlocListener<RadioMainCubit, RadioMainStates>(
+      child: BlocBuilder<RadioFavouritesCubit, RadioFavouriteStates>(
+        builder: (context, state) {
+          switch (state) {
+            case FavouriteRadioStationsLoadedState():
+              return Container(
+                color: context.colors.background,
+                child: RadioVerticalListWidget(
+                  size: size,
+                  isFavoriteScreen: true,
+                  stations: state.data,
+                  onClick: (radioStationEntity) {
+                    (audioHandler as AudioPlayerHandler)
+                        .setRadioStation(radioStationEntity);
+                  },
+                  (radioStationEntity) {
+                    (audioHandler as AudioPlayerHandler).station =
+                        (audioHandler as AudioPlayerHandler)
+                            .station
+                            ?.copyWith(isFavourite: false);
+                    context
+                        .read<RadioFavouritesCubit>()
+                        .removeFavouriteRadioStations(radioStationEntity);
+                  },
                 ),
-              ),
-            );
-          case FavouriteRadioStationsEmptyState():
-            return const RadioEmptyWidget();
-          default:
-            return Container(
-              color: context.colors.background,
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: context.colors.text,
+              );
+            case FavouriteRadioStationsErrorState():
+              return RadioErrorWidget(
+                failure: state.failure,
+                onSwipe: null,
+              );
+            case FavouriteRadioStationsLoadingState():
+              return Container(
+                color: context.colors.background,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: context.colors.text,
+                  ),
                 ),
-              ),
-            );
+              );
+            case FavouriteRadioStationsEmptyState():
+              return const RadioEmptyWidget();
+            default:
+              return Container(
+                color: context.colors.background,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: context.colors.text,
+                  ),
+                ),
+              );
+          }
+        },
+      ),
+      listener: (context, state) {
+        if (state is OnChanged) {
+          context.read<RadioFavouritesCubit>().search(state.query);
         }
       },
     );
