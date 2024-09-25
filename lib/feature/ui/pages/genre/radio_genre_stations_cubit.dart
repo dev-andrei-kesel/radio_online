@@ -8,6 +8,8 @@ import '../../../data/models/radio_type.dart';
 import '../../../domain/entities/radio_station_entity.dart';
 
 class RadioGenreStationsCubit extends Cubit<RadioGenreStationsStates> {
+  int page = 0;
+  static const int _size = 150;
   final UseCase userCase;
   final List<RadioType> _genres = [];
   final List<RadioType> genres = [];
@@ -34,13 +36,12 @@ class RadioGenreStationsCubit extends Cubit<RadioGenreStationsStates> {
       this.genre = (await _saveGenres())?.first;
     }
     final RadioResult result =
-        await userCase.call(250, 0, genre ?? this.genre?.name).asResult();
+        await userCase.call(_size, page, genre ?? this.genre?.name).asResult();
     switch (result) {
       case Success():
         if (result.data == null || result.data.isEmpty) {
           emit(RadioGenreStationsEmptyState());
         } else {
-          _stations.clear();
           _stations.addAll(result.data);
           emit(RadioGenreStationsLoadedState(data: _filteredStations));
         }
@@ -62,7 +63,20 @@ class RadioGenreStationsCubit extends Cubit<RadioGenreStationsStates> {
 
   Future<void> update(RadioType? genre) async {
     emit(RadioGenreStationsLoadingState());
-    this.genre = genre;
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        this.genre = genre;
+        _stations.clear();
+        page = 0;
+        call(genre?.name);
+      },
+    );
+  }
+
+  Future<void> paging() async {
+    if (state is RadioGenreStationsLoadingState) return;
+    page = page + 1;
     call(genre?.name);
   }
 
@@ -70,9 +84,8 @@ class RadioGenreStationsCubit extends Cubit<RadioGenreStationsStates> {
     if (state is! RadioGenreStationsLoadingState) {
       this.query = query;
       List<RadioType> genres = _genres
-          .where(
-              (e) =>
-          e.name?.toLowerCase().contains(query.toLowerCase()) == true)
+          .where((e) =>
+              e.name?.toLowerCase().contains(query.toLowerCase()) == true)
           .toList();
 
       List<RadioStationEntity> stations = _filteredStations;

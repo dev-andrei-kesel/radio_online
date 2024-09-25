@@ -8,6 +8,8 @@ import '../../../data/models/radio_type.dart';
 import '../../../domain/entities/radio_station_entity.dart';
 
 class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
+  int page = 0;
+  static const int _size = 150;
   final UseCase userCase;
   final List<RadioType> _languages = [];
   final List<RadioType> languages = [];
@@ -33,14 +35,14 @@ class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
     if (this.language == null) {
       this.language = (await _saveLanguages())?.first;
     }
-    final RadioResult result =
-        await userCase.call(250, 0, language ?? this.language?.name).asResult();
+    final RadioResult result = await userCase
+        .call(_size, page, language ?? this.language?.name)
+        .asResult();
     switch (result) {
       case Success():
         if (result.data == null || result.data.isEmpty) {
           emit(RadioLanguageStationsEmptyState());
         } else {
-          _stations.clear();
           _stations.addAll(result.data);
           emit(RadioLanguageStationsLoadedState(data: _filteredStations));
         }
@@ -63,7 +65,20 @@ class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
 
   Future<void> update(RadioType? language) async {
     emit(RadioLanguageStationsLoadingState());
-    this.language = language;
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        this.language = language;
+        _stations.clear();
+        page = 0;
+        call(language?.name);
+      },
+    );
+  }
+
+  Future<void> paging() async {
+    if (state is RadioLanguageStationsLoadingState) return;
+    page = page + 1;
     call(language?.name);
   }
 

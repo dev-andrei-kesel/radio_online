@@ -8,6 +8,8 @@ import '../../../domain/entities/radio_station_entity.dart';
 import '../../../domain/usercases/countries_radio_stations_user_case.dart';
 
 class RadioCountryStationsCubit extends Cubit<RadioCountryStationsStates> {
+  int page = 0;
+  static const int _size = 150;
   final UseCase userCase;
   final List<RadioType> _countries = [];
   final List<RadioType> countries = [];
@@ -33,14 +35,14 @@ class RadioCountryStationsCubit extends Cubit<RadioCountryStationsStates> {
     if (this.country == null) {
       this.country = (await _saveCountries())?.first;
     }
-    final RadioResult result =
-        await userCase.call(250, 0, country ?? this.country?.name).asResult();
+    final RadioResult result = await userCase
+        .call(_size, page, country ?? this.country?.name)
+        .asResult();
     switch (result) {
       case Success():
         if (result.data == null || result.data.isEmpty) {
           emit(RadioCountryStationsEmptyState());
         } else {
-          _stations.clear();
           _stations.addAll(result.data);
           emit(RadioCountryStationsLoadedState(data: _filteredStations));
         }
@@ -63,7 +65,20 @@ class RadioCountryStationsCubit extends Cubit<RadioCountryStationsStates> {
 
   Future<void> update(RadioType? country) async {
     emit(RadioCountryStationsLoadingState());
-    this.country = country;
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        this.country = country;
+        _stations.clear();
+        page = 0;
+        call(country?.name);
+      },
+    );
+  }
+
+  Future<void> paging() async {
+    if (state is RadioCountryStationsLoadingState) return;
+    page = page + 1;
     call(country?.name);
   }
 

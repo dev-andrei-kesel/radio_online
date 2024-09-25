@@ -68,6 +68,7 @@ class RadioLanguagePage extends StatelessWidget {
                             (audioHandler as AudioPlayerHandler)
                                 .setRadioStation(radioStationEntity);
                           },
+                          onPaging: () => cubit.paging(),
                         ),
                       ),
                     ],

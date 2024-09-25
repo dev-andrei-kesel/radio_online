@@ -46,6 +46,8 @@ class AllRadioStationsPage extends StatelessWidget {
                       (audioHandler as AudioPlayerHandler)
                           .setRadioStation(radioStationEntity);
                     },
+                    onPaging: () =>
+                      context.read<AllRadioStationsCubit>().paging(),
                   ),
                 );
               case AllRadioStationsErrorState():

@@ -90,14 +90,18 @@ class _WavyTextState extends State<WavyTextWidget>
       ),
     );
 
-    _controller.addListener(
-      () {
-        setState(() {
-          _offset += 0.02;
-          if (_offset > 3.14) {
-            _offset -= 2 * 3.14;
-          }
-        });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _controller.addListener(
+          () {
+            setState(() {
+              _offset += 0.02;
+              if (_offset > 3.14) {
+                _offset -= 2 * 3.14;
+              }
+            });
+          },
+        );
       },
     );
     widget.audioHandler?.playbackState.listen(

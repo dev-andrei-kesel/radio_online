@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/use_cases/use_case.dart';
 
 class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
+  int page = 0;
+  static const int _size = 150;
   final UseCase userCase;
   List<RadioStationEntity> stations = [];
 
@@ -13,15 +15,15 @@ class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
       : super(AllRadioStationsLoadingState());
 
   Future<void> call() async {
-    final RadioResult result = await userCase.call(250, 0, null).asResult();
+    final RadioResult result =
+        await userCase.call(_size, page, null).asResult();
     switch (result) {
       case Success():
         if (result.data == null) {
           emit(AllRadioStationsEmptyState());
         } else {
-          stations.clear();
           stations.addAll(result.data);
-          emit(AllRadioStationsLoadedState(data: result.data));
+          emit(AllRadioStationsLoadedState(data: stations));
         }
       case Error():
         emit(AllRadioStationsErrorState(failure: result.failure));
@@ -32,9 +34,19 @@ class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
 
   Future<void> update() async {
     emit(AllRadioStationsLoadingState());
-    Future.delayed(const Duration(seconds: 1), () {
-      call();
-    });
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        stations.clear();
+        call();
+      },
+    );
+  }
+
+  Future<void> paging() async {
+    if (state is AllRadioStationsLoadingState) return;
+    page = page + 1;
+    call();
   }
 
   Future<void> search(String query) async {

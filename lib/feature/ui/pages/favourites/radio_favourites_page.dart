@@ -45,6 +45,7 @@ class RadioFavouritesPage extends StatelessWidget {
                         .read<RadioFavouritesCubit>()
                         .removeFavouriteRadioStations(radioStationEntity);
                   },
+                  onPaging: null,
                 ),
               );
             case FavouriteRadioStationsErrorState():
