@@ -38,25 +38,27 @@ class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
   }
 
   Future<void> search(String query) async {
-    List<RadioStationEntity> stations = this
-        .stations
-        .where((e) =>
-            e.name?.toLowerCase().contains(query.toLowerCase()) == true ||
-            e.country?.toLowerCase().contains(query.toLowerCase()) == true ||
-            e.countryCode?.toLowerCase().contains(query.toLowerCase()) ==
-                true ||
-            e.language?.toLowerCase().contains(query.toLowerCase()) == true ||
-            e.languageCodes?.toLowerCase().contains(query.toLowerCase()) ==
-                true ||
-            e.tags?.toLowerCase().contains(query.toLowerCase()) == true)
-        .toList();
-    if (stations.isEmpty) {
-      emit(AllRadioStationsEmptyState());
-    } else {
-      emit(
-        AllRadioStationsLoadedState(
-            data: query.isEmpty ? this.stations : stations),
-      );
+    if (state is! AllRadioStationsLoadingState) {
+      List<RadioStationEntity> stations = this
+          .stations
+          .where((e) =>
+              e.name?.toLowerCase().contains(query.toLowerCase()) == true ||
+              e.country?.toLowerCase().contains(query.toLowerCase()) == true ||
+              e.countryCode?.toLowerCase().contains(query.toLowerCase()) ==
+                  true ||
+              e.language?.toLowerCase().contains(query.toLowerCase()) == true ||
+              e.languageCodes?.toLowerCase().contains(query.toLowerCase()) ==
+                  true ||
+              e.tags?.toLowerCase().contains(query.toLowerCase()) == true)
+          .toList();
+      if (stations.isEmpty) {
+        emit(AllRadioStationsEmptyState());
+      } else {
+        emit(
+          AllRadioStationsLoadedState(
+              data: query.isEmpty ? this.stations : stations),
+        );
+      }
     }
   }
 }

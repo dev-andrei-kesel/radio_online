@@ -68,29 +68,31 @@ class RadioLanguageStationsCubit extends Cubit<RadioLanguageStationsStates> {
   }
 
   Future<void> search(String query) async {
-    this.query = query;
-    List<RadioType> languages = _languages
-        .where(
-            (e) => e.name?.toLowerCase().contains(query.toLowerCase()) == true)
-        .toList();
+    if (state is! RadioLanguageStationsLoadingState) {
+      this.query = query;
+      List<RadioType> languages = _languages
+          .where((e) =>
+              e.name?.toLowerCase().contains(query.toLowerCase()) == true)
+          .toList();
 
-    List<RadioStationEntity> stations = _filteredStations;
+      List<RadioStationEntity> stations = _filteredStations;
 
-    if (languages.isEmpty || query.isEmpty) {
-      this.languages.clear();
-      this.languages.addAll(_languages);
-    } else {
-      this.languages.clear();
-      this.languages.addAll(languages);
-    }
+      if (languages.isEmpty || query.isEmpty) {
+        this.languages.clear();
+        this.languages.addAll(_languages);
+      } else {
+        this.languages.clear();
+        this.languages.addAll(languages);
+      }
 
-    if (stations.isEmpty) {
-      emit(RadioLanguageStationsEmptyState());
-    } else {
-      emit(
-        RadioLanguageStationsLoadedState(
-            data: query.isEmpty ? _filteredStations : stations),
-      );
+      if (stations.isEmpty) {
+        emit(RadioLanguageStationsEmptyState());
+      } else {
+        emit(
+          RadioLanguageStationsLoadedState(
+              data: query.isEmpty ? _filteredStations : stations),
+        );
+      }
     }
   }
 }

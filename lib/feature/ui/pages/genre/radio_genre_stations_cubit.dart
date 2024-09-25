@@ -67,29 +67,32 @@ class RadioGenreStationsCubit extends Cubit<RadioGenreStationsStates> {
   }
 
   Future<void> search(String query) async {
-    this.query = query;
-    List<RadioType> genres = _genres
-        .where(
-            (e) => e.name?.toLowerCase().contains(query.toLowerCase()) == true)
-        .toList();
+    if (state is! RadioGenreStationsLoadingState) {
+      this.query = query;
+      List<RadioType> genres = _genres
+          .where(
+              (e) =>
+          e.name?.toLowerCase().contains(query.toLowerCase()) == true)
+          .toList();
 
-    List<RadioStationEntity> stations = _filteredStations;
+      List<RadioStationEntity> stations = _filteredStations;
 
-    if (genres.isEmpty || query.isEmpty) {
-      this.genres.clear();
-      this.genres.addAll(_genres);
-    } else {
-      this.genres.clear();
-      this.genres.addAll(genres);
-    }
+      if (genres.isEmpty || query.isEmpty) {
+        this.genres.clear();
+        this.genres.addAll(_genres);
+      } else {
+        this.genres.clear();
+        this.genres.addAll(genres);
+      }
 
-    if (stations.isEmpty) {
-      emit(RadioGenreStationsEmptyState());
-    } else {
-      emit(
-        RadioGenreStationsLoadedState(
-            data: query.isEmpty ? _filteredStations : stations),
-      );
+      if (stations.isEmpty) {
+        emit(RadioGenreStationsEmptyState());
+      } else {
+        emit(
+          RadioGenreStationsLoadedState(
+              data: query.isEmpty ? _filteredStations : stations),
+        );
+      }
     }
   }
 }
