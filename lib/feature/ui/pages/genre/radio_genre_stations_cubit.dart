@@ -34,7 +34,7 @@ class RadioGenreStationsCubit extends Cubit<RadioGenreStationsStates> {
       this.genre = (await _saveGenres())?.first;
     }
     final RadioResult result =
-        await userCase.call(genre ?? this.genre?.name).asResult();
+        await userCase.call(250, 0, genre ?? this.genre?.name).asResult();
     switch (result) {
       case Success():
         if (result.data == null || result.data.isEmpty) {

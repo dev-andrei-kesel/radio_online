@@ -10,8 +10,12 @@ class GenreRadioStationsUserCase
   GenreRadioStationsUserCase({required this.repository});
 
   @override
-  Future<List<RadioStationEntity>> call(String? genre) async =>
-      repository.searchByGenre(genre: genre);
+  Future<List<RadioStationEntity>> call(
+    int? limit,
+    int? offset,
+    String? params,
+  ) async =>
+      repository.searchByGenre(genre: params, offset: offset, limit: limit);
 
   Future<List<RadioType>> getAllGenres() async => repository.getAllTags();
 }

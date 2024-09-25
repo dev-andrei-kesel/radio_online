@@ -17,8 +17,14 @@ class RadioRepositoryImpl implements RadioRepository {
   });
 
   @override
-  Future<List<RadioStationEntity>?> getAllStations() async {
-    List<RadioStation> response = await radioRemoteDataSource.getAllStations();
+  Future<List<RadioStationEntity>?> getAllStations({
+    int? offset,
+    int? limit,
+  }) async {
+    List<RadioStation> response = await radioRemoteDataSource.getAllStations(
+      offset: offset.toString(),
+      limit: limit.toString(),
+    );
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     return response.reversed.where((RadioStation e) {
@@ -45,10 +51,13 @@ class RadioRepositoryImpl implements RadioRepository {
   }
 
   @override
-  Future<List<RadioStationEntity>> searchByCountry(
-      {required String? country}) async {
-    List<RadioStation> response =
-        await radioRemoteDataSource.searchByCountry(country: country);
+  Future<List<RadioStationEntity>> searchByCountry({
+    required String? country,
+    required int? offset,
+    required int? limit,
+  }) async {
+    List<RadioStation> response = await radioRemoteDataSource.searchByCountry(
+        country: country, offset: offset.toString(), limit: limit.toString());
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
@@ -75,10 +84,16 @@ class RadioRepositoryImpl implements RadioRepository {
   }
 
   @override
-  Future<List<RadioStationEntity>> searchByGenre(
-      {required String? genre}) async {
-    List<RadioStation> response =
-        await radioRemoteDataSource.searchByGenre(genre: genre);
+  Future<List<RadioStationEntity>> searchByGenre({
+    required String? genre,
+    required int? offset,
+    required int? limit,
+  }) async {
+    List<RadioStation> response = await radioRemoteDataSource.searchByGenre(
+      genre: genre,
+      offset: offset.toString(),
+      limit: limit.toString(),
+    );
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
@@ -105,10 +120,16 @@ class RadioRepositoryImpl implements RadioRepository {
   }
 
   @override
-  Future<List<RadioStationEntity>> searchByLanguage(
-      {required String? language}) async {
-    List<RadioStation> response =
-        await radioRemoteDataSource.searchByLanguage(language: language);
+  Future<List<RadioStationEntity>> searchByLanguage({
+    required String? language,
+    required int? offset,
+    required int? limit,
+  }) async {
+    List<RadioStation> response = await radioRemoteDataSource.searchByLanguage(
+      language: language,
+      offset: offset.toString(),
+      limit: limit.toString(),
+    );
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
@@ -135,10 +156,17 @@ class RadioRepositoryImpl implements RadioRepository {
   }
 
   @override
-  Future<List<RadioStationEntity>> searchByStationName(
-      {required String? name}) async {
+  Future<List<RadioStationEntity>> searchByStationName({
+    required String? name,
+    required int? offset,
+    required int? limit,
+  }) async {
     List<RadioStation> response =
-        await radioRemoteDataSource.searchByStationName(name: name);
+        await radioRemoteDataSource.searchByStationName(
+      name: name,
+      offset: offset.toString(),
+      limit: limit.toString(),
+    );
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);

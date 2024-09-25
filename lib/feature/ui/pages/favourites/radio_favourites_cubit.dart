@@ -14,7 +14,7 @@ class RadioFavouritesCubit extends Cubit<RadioFavouriteStates> {
       : super(FavouriteRadioStationsLoadingState());
 
   Future<void> call() async {
-    final RadioResult result = await userCase.call(null).asResult();
+    final RadioResult result = await userCase.call(250, 0, null).asResult();
     switch (result) {
       case Success():
         if (result.data == null || result.data?.isEmpty) {

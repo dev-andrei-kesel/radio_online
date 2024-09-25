@@ -11,8 +11,12 @@ class CountriesRadioStationsUserCase
   CountriesRadioStationsUserCase({required this.repository});
 
   @override
-  Future<List<RadioStationEntity>> call(String? params) async =>
-      repository.searchByCountry(country: params);
+  Future<List<RadioStationEntity>> call(
+    int? limit,
+    int? offset,
+    String? params,
+  ) async =>
+      repository.searchByCountry(country: params, offset: offset, limit: limit);
 
   Future<List<RadioType>> getAllCountries() async =>
       repository.getAllCountries();

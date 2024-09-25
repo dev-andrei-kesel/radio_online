@@ -34,7 +34,7 @@ class RadioCountryStationsCubit extends Cubit<RadioCountryStationsStates> {
       this.country = (await _saveCountries())?.first;
     }
     final RadioResult result =
-        await userCase.call(country ?? this.country?.name).asResult();
+        await userCase.call(250, 0, country ?? this.country?.name).asResult();
     switch (result) {
       case Success():
         if (result.data == null || result.data.isEmpty) {

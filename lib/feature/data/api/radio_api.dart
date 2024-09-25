@@ -19,22 +19,37 @@ abstract class RestClient {
   @GET('/json/languages')
   Future<List<RadioType>> getAllLanguages();
 
-  @GET('json/stations?limit=500&offset=0')
-  Future<List<RadioStation>> getAllStations();
+  @GET('json/stations?limit={limit}&offset={offset}')
+  Future<List<RadioStation>> getAllStations({
+    @Path('offset') required String? offset,
+    @Path('limit') required String? limit,
+  });
 
-  @GET('json/stations/search?name={name}?limit=50&offset=0')
-  Future<List<RadioStation>> searchByStationName(
-      {@Path('name') required String? name});
+  @GET('json/stations/search?name={name}?limit={limit}&offset={offset}')
+  Future<List<RadioStation>> searchByStationName({
+    @Path('name') required String? name,
+    @Path('offset') required String? offset,
+    @Path('limit') required String? limit,
+  });
 
-  @GET('json/stations/bycountry/{country}?limit=50&offset=0')
-  Future<List<RadioStation>> searchByCountry(
-      {@Path('country') required String? country});
+  @GET('json/stations/bycountry/{country}?limit={limit}&offset={offset}')
+  Future<List<RadioStation>> searchByCountry({
+    @Path('country') required String? country,
+    @Path('offset') required String? offset,
+    @Path('limit') required String? limit,
+  });
 
-  @GET('json/stations/bylanguage/{language}?limit=50&offset=0')
-  Future<List<RadioStation>> searchByLanguage(
-      {@Path('language') required String? language});
+  @GET('json/stations/bylanguage/{language}?limit={limit}&offset={offset}')
+  Future<List<RadioStation>> searchByLanguage({
+    @Path('language') required String? language,
+    @Path('offset') required String? offset,
+    @Path('limit') required String? limit,
+  });
 
-  @GET('json/stations/bytag/{genre}?limit=50&offset=0')
-  Future<List<RadioStation>> searchByGenre(
-      {@Path('genre') required String? genre});
+  @GET('json/stations/bytag/{genre}?limit={limit}&offset={offset}')
+  Future<List<RadioStation>> searchByGenre({
+    @Path('genre') required String? genre,
+    @Path('offset') required String? offset,
+    @Path('limit') required String? limit,
+  });
 }

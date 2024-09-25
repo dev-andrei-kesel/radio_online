@@ -5,15 +5,34 @@ import '../../models/radio_station.dart';
 import '../../models/radio_type.dart';
 
 abstract class RadioRemoteDataSource {
-  Future<List<RadioStation>> getAllStations();
+  Future<List<RadioStation>> getAllStations({
+    required String? offset,
+    required String? limit,
+  });
 
-  Future<List<RadioStation>> searchByStationName({required String? name});
+  Future<List<RadioStation>> searchByStationName({
+    required String? name,
+    required String? offset,
+    required String? limit,
+  });
 
-  Future<List<RadioStation>> searchByCountry({required String? country});
+  Future<List<RadioStation>> searchByCountry({
+    required String? country,
+    required String? offset,
+    required String? limit,
+  });
 
-  Future<List<RadioStation>> searchByLanguage({required String? language});
+  Future<List<RadioStation>> searchByLanguage({
+    required String? language,
+    required String? offset,
+    required String? limit,
+  });
 
-  Future<List<RadioStation>> searchByGenre({required String? genre});
+  Future<List<RadioStation>> searchByGenre({
+    required String? genre,
+    required String? offset,
+    required String? limit,
+  });
 
   Future<List<RadioType>> getAllCountries();
 
@@ -29,53 +48,82 @@ class RadioRemoteDataSourceImpl implements RadioRemoteDataSource {
   RadioRemoteDataSourceImpl({required this.client, required this.networkInfo});
 
   @override
-  Future<List<RadioStation>> getAllStations() async {
+  Future<List<RadioStation>> getAllStations({
+    required String? offset,
+    required String? limit,
+  }) async {
     return runCatching(
       isConnected: await networkInfo.isConnected,
       run: () {
-        return client.getAllStations();
+        return client.getAllStations(
+          offset: offset,
+          limit: limit,
+        );
       },
     );
   }
 
   @override
-  Future<List<RadioStation>> searchByCountry({required String? country}) async {
+  Future<List<RadioStation>> searchByCountry({
+    required String? country,
+    required String? offset,
+    required String? limit,
+  }) async {
     return runCatching(
       isConnected: await networkInfo.isConnected,
       run: () {
-        return client.searchByCountry(country: country);
+        return client.searchByCountry(
+          country: country,
+          offset: offset,
+          limit: limit,
+        );
       },
     );
   }
 
   @override
-  Future<List<RadioStation>> searchByGenre({required String? genre}) async {
+  Future<List<RadioStation>> searchByGenre({
+    required String? genre,
+    required String? offset,
+    required String? limit,
+  }) async {
     return runCatching(
       isConnected: await networkInfo.isConnected,
       run: () {
-        return client.searchByGenre(genre: genre);
+        return client.searchByGenre(genre: genre, offset: offset, limit: limit);
       },
     );
   }
 
   @override
-  Future<List<RadioStation>> searchByLanguage(
-      {required String? language}) async {
+  Future<List<RadioStation>> searchByLanguage({
+    required String? language,
+    required String? offset,
+    required String? limit,
+  }) async {
     return runCatching(
       isConnected: await networkInfo.isConnected,
       run: () {
-        return client.searchByLanguage(language: language);
+        return client.searchByLanguage(
+            language: language, offset: offset, limit: limit);
       },
     );
   }
 
   @override
-  Future<List<RadioStation>> searchByStationName(
-      {required String? name}) async {
+  Future<List<RadioStation>> searchByStationName({
+    required String? name,
+    required String? offset,
+    required String? limit,
+  }) async {
     return runCatching(
       isConnected: await networkInfo.isConnected,
       run: () {
-        return client.searchByStationName(name: name);
+        return client.searchByStationName(
+          name: name,
+          offset: offset,
+          limit: limit,
+        );
       },
     );
   }

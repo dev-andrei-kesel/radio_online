@@ -129,9 +129,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RadioStation>> getAllStations() async {
+  Future<List<RadioStation>> getAllStations({
+    String? offset,
+    String? limit,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<RadioStation>>(Options(
@@ -141,7 +145,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          'json/stations?limit=500&offset=0',
+          'json/stations?limit=${limit}&offset=${offset}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -164,7 +168,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RadioStation>> searchByStationName({String? name}) async {
+  Future<List<RadioStation>> searchByStationName({
+    String? name,
+    String? offset,
+    String? limit,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -177,7 +185,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          'json/stations/search?name=${name}?limit=50&offset=0',
+          'json/stations/search?name=${name}?limit=${limit}&offset=${offset}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -200,7 +208,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RadioStation>> searchByCountry({String? country}) async {
+  Future<List<RadioStation>> searchByCountry({
+    String? country,
+    String? offset,
+    String? limit,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -213,7 +225,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          'json/stations/bycountry/${country}?limit=50&offset=0',
+          'json/stations/bycountry/${country}?limit=${limit}&offset=${offset}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -236,7 +248,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RadioStation>> searchByLanguage({String? language}) async {
+  Future<List<RadioStation>> searchByLanguage({
+    String? language,
+    String? offset,
+    String? limit,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -249,7 +265,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          'json/stations/bylanguage/${language}?limit=50&offset=0',
+          'json/stations/bylanguage/${language}?limit=${limit}&offset=${offset}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -272,7 +288,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RadioStation>> searchByGenre({String? genre}) async {
+  Future<List<RadioStation>> searchByGenre({
+    String? genre,
+    String? offset,
+    String? limit,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -285,7 +305,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          'json/stations/bytag/${genre}?limit=50&offset=0',
+          'json/stations/bytag/${genre}?limit=${limit}&offset=${offset}',
           queryParameters: queryParameters,
           data: _data,
         )

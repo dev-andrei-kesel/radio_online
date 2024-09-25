@@ -10,8 +10,13 @@ class LanguageRadioStationsUserCase
   LanguageRadioStationsUserCase({required this.repository});
 
   @override
-  Future<List<RadioStationEntity>> call(String? language) async =>
-      repository.searchByLanguage(language: language);
+  Future<List<RadioStationEntity>> call(
+    int? limit,
+    int? offset,
+    String? params,
+  ) async =>
+      repository.searchByLanguage(
+          language: params, offset: offset, limit: limit);
 
   Future<List<RadioType>> getAllLanguages() async =>
       repository.getAllLanguages();
