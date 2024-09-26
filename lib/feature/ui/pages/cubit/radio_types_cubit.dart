@@ -13,6 +13,8 @@ class RadioTypesCubit extends Cubit<RadioTypesStates> {
   final List<RadioType> _types = [];
   final List<RadioType> types = [];
   final List<RadioStationEntity> _stations = [];
+  bool isLoadData = true;
+  bool isSearch = false;
 
   List<RadioStationEntity> get _filteredStations => _stations
       .where((e) =>
@@ -34,17 +36,20 @@ class RadioTypesCubit extends Cubit<RadioTypesStates> {
       this.type = (await _saveTypes())?.first;
     }
     final RadioResult result = await userCase
-        .call(_limit, _offset, type ?? this.type?.name)
+        .call(_limit, _offset * _limit, type ?? this.type?.name)
         .asResult();
     switch (result) {
       case Success():
+        if (result.data.length < _limit) {
+          isLoadData = false;
+        }
         if (result.data == null || result.data.isEmpty) {
           emit(EmptyState());
         } else {
           _stations.addAll(result.data);
-          if(_filteredStations.isNotEmpty) {
+          if (_filteredStations.isNotEmpty) {
             emit(LoadedState(data: _filteredStations));
-          }else {
+          } else {
             emit(EmptyState());
           }
         }
@@ -77,12 +82,15 @@ class RadioTypesCubit extends Cubit<RadioTypesStates> {
   }
 
   Future<void> paging() async {
-    if (state is LoadingState) return;
-    _offset = _offset + 1;
-    call(type?.name);
+    if (isLoadData) {
+      if (state is LoadingState) return;
+      _offset = _offset + 1;
+      call(type?.name);
+    }
   }
 
   Future<void> search(String query) async {
+    isSearch = query.isNotEmpty;
     if (state is! LoadingState) {
       this.query = query;
       List<RadioType> types = _types

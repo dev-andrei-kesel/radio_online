@@ -1,12 +1,24 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:radio_online/feature/domain/entities/radio_station_entity.dart';
 
+import '../common/string_resources.dart';
+
 class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   final _player = AudioPlayer();
+
+  Stream<String> get errorMessageStream => _errorMessageStreamController.stream;
+  final _errorMessageStreamController = StreamController<String>();
+
+  Stream<String> get checkUrlStream => _checkUrlController.stream;
+  final _checkUrlController = StreamController<String>.broadcast();
+
   RadioStationEntity? station;
 
   AudioPlayerHandler() {
@@ -38,19 +50,9 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> playMediaItem(MediaItem mediaItem) async {
     try {
-      if (_player.playing) {
-        _player.stop();
-        this.mediaItem.add(mediaItem);
-        _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
-            initialIndex: 0, initialPosition: Duration.zero);
-        _player.play();
-      } else {
-        this.mediaItem.add(mediaItem);
-        _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
-            initialIndex: 0, initialPosition: Duration.zero);
-        _player.play();
-      }
+      await _setAudioSource(mediaItem);
     } catch (e) {
+      _checkUrlController.add('');
       debugPrint(e.toString());
     }
   }
@@ -76,6 +78,40 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
       );
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  Future<void> closeSnackBar() async {
+    _errorMessageStreamController.add('');
+  }
+
+  Future<void> _setAudioSource(MediaItem mediaItem) async {
+    if (_player.playing) {
+      _player.stop();
+    }
+    if (await _checkUrl(mediaItem.id)) {
+      this.mediaItem.add(mediaItem);
+      _checkUrlController.add('');
+      _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
+          initialIndex: 0, initialPosition: Duration.zero);
+      _player.play();
+    } else {
+      _checkUrlController.add('');
+      _errorMessageStreamController.add(StringResources.errorMessageStream);
+    }
+  }
+
+  Future<bool> _checkUrl(String url) async {
+    _checkUrlController.add(url);
+    try {
+      final player = AudioPlayer();
+      await player.setAudioSource(AudioSource.uri(Uri.parse(url)),
+          initialIndex: 0, initialPosition: Duration.zero);
+      await player.dispose();
+      return true;
+    } on Exception {
+      _checkUrlController.add('');
+      return false;
     }
   }
 
@@ -119,5 +155,12 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
         }
       },
     );
+  }
+
+  Future<void> dispose() async {
+    _player.dispose();
+    _errorMessageStreamController.close();
+    _checkUrlController.close();
+    await stop();
   }
 }

@@ -46,6 +46,9 @@ class RadioFavouritesPage extends StatelessWidget {
                         .removeFavouriteRadioStations(radioStationEntity);
                   },
                   onPaging: null,
+                  audioHandler: audioHandler,
+                  isLoadData: false,
+                  isSearch: true,
                 ),
               );
             case FavouriteRadioStationsErrorState():

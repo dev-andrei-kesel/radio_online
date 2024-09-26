@@ -10,6 +10,7 @@ import 'package:radio_online/feature/domain/usercases/favourite_radio_stations_u
 import 'package:radio_online/feature/ui/pages/main/radio_main_cubit.dart';
 import 'package:radio_online/feature/ui/widgets/bottom_navigation_bar.dart';
 
+import '../../../../audio/audio_player_handler.dart';
 import '../../../../common/string_resources.dart';
 import '../../widgets/radio_player_widget.dart';
 import '../../widgets/wavy_text_widget.dart';
@@ -121,6 +122,51 @@ class _MainScreenState extends State<MainScreen>
             body: Stack(
               children: [
                 widget.navigationShell,
+                StreamBuilder<String>(
+                  stream:
+                      (audioHandler as AudioPlayerHandler).errorMessageStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data?.isNotEmpty == true) {
+                        WidgetsBinding.instance.addPostFrameCallback(
+                          (_) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Colors.red,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    content: Text(
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      snapshot.data ?? '',
+                                    ),
+                                    action: SnackBarAction(
+                                      textColor: Colors.white,
+                                      label: StringResources.ok,
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentSnackBar();
+                                        audioHandler.closeSnackBar();
+                                      },
+                                    ),
+                                  ),
+                                )
+                                .closed
+                                .then(
+                              (value) {
+                                audioHandler.closeSnackBar();
+                              },
+                            );
+                          },
+                        );
+                      }
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
                 AnimatedBuilder(
                   animation: _animation,
                   child: Center(
@@ -148,8 +194,7 @@ class _MainScreenState extends State<MainScreen>
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 4.0),
                     child: StreamBuilder<PlaybackState>(
-                      stream: audioHandler?.playbackState ??
-                          Stream.value(PlaybackState()),
+                      stream: audioHandler.playbackState,
                       builder: (context, snapshot) {
                         final playbackState = snapshot.data;
                         return _isVisiblePlayer(playbackState)
@@ -181,6 +226,7 @@ class _MainScreenState extends State<MainScreen>
   void dispose() {
     _searchController.dispose();
     _controller.dispose();
+    (widget.audioHandler as AudioPlayerHandler).dispose();
     super.dispose();
   }
 

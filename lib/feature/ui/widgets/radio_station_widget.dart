@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +8,10 @@ import 'package:radio_online/feature/domain/entities/radio_station_entity.dart';
 import 'package:radio_online/feature/ui/pages/info/info_radio_station_page.dart';
 import 'package:radio_online/feature/ui/widgets/radio_stations_info_widget.dart';
 
+import '../../../audio/audio_player_handler.dart';
+
 class RadioStationWidget extends StatelessWidget {
+  final AudioHandler? audioHandler;
   final bool isFavoriteScreen;
   final RadioStationEntity? radioStationEntity;
   final Size size;
@@ -21,6 +25,7 @@ class RadioStationWidget extends StatelessWidget {
     required this.size,
     required this.onClick,
     required this.isFavoriteScreen,
+    required this.audioHandler,
   });
 
   @override
@@ -66,34 +71,53 @@ class RadioStationWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () => onClick(radioStationEntity),
-                onLongPress: () => onDeleteStation != null
-                    ? onDeleteStation!(radioStationEntity)
-                    : null,
-                child: Container(
-                  color: context.colors.selected.withOpacity(0.20),
-                  child: CachedNetworkImage(
-                    width: size.width,
-                    height: size.width,
-                    fit: BoxFit.fill,
-                    imageUrl: radioStationEntity?.favicon ?? '',
-                    placeholder: (context, url) => SizedBox(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: context.colors.background,
+              StreamBuilder<String>(
+                stream: (audioHandler as AudioPlayerHandler).checkUrlStream,
+                builder: (context, snapshot) {
+                  final checkUrl = snapshot.data;
+                  return InkWell(
+                    onTap: () => onClick(radioStationEntity),
+                    onLongPress: () => onDeleteStation != null
+                        ? onDeleteStation!(radioStationEntity)
+                        : null,
+                    child: Container(
+                      color: context.colors.selected.withOpacity(0.20),
+                      child: Stack(children: [
+                        CachedNetworkImage(
+                          width: size.width,
+                          height: size.width,
+                          fit: BoxFit.fill,
+                          imageUrl: radioStationEntity?.favicon ?? '',
+                          placeholder: (context, url) => SizedBox(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: context.colors.background,
+                              ),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Center(
+                            child: Icon(
+                              color: context.colors.unselected,
+                              Icons.radio,
+                              size: size.width * 0.5,
+                            ),
+                          ),
                         ),
-                      ),
+                        if (checkUrl == radioStationEntity?.url)
+                          Container(
+                            width: size.width,
+                            height: size.width,
+                            color: Colors.black.withOpacity(0.30),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                      ]),
                     ),
-                    errorWidget: (context, url, error) => Center(
-                      child: Icon(
-                        color: context.colors.unselected,
-                        Icons.radio,
-                        size: size.width * 0.5,
-                      ),
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
               Container(
                 alignment: Alignment.center,

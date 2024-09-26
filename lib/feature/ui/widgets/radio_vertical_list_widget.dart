@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_online/common/colors_dark.dart';
 import 'package:radio_online/feature/ui/widgets/radio_station_widget.dart';
@@ -5,12 +6,15 @@ import 'package:radio_online/feature/ui/widgets/radio_station_widget.dart';
 import '../../domain/entities/radio_station_entity.dart';
 
 class RadioVerticalListWidget extends StatefulWidget {
+  final AudioHandler? audioHandler;
   final bool isFavoriteScreen;
   final List<RadioStationEntity>? stations;
   final Size size;
   final Function(RadioStationEntity?) onClick;
   final Function(RadioStationEntity?)? onDeleteStation;
   final VoidCallback? onPaging;
+  final bool? isLoadData;
+  final bool isSearch;
 
   const RadioVerticalListWidget(
     this.onDeleteStation, {
@@ -20,6 +24,9 @@ class RadioVerticalListWidget extends StatefulWidget {
     required this.onClick,
     required this.isFavoriteScreen,
     required this.onPaging,
+    required this.audioHandler,
+    required this.isLoadData,
+    required this.isSearch,
   });
 
   @override
@@ -63,8 +70,11 @@ class _RadioVerticalListWidgetState extends State<RadioVerticalListWidget> {
               size: widget.size,
               onClick: widget.onClick,
               widget.onDeleteStation,
+              audioHandler: widget.audioHandler,
             ),
-            index == widget.stations!.length - 1 && !widget.isFavoriteScreen
+            index == widget.stations!.length - 1 &&
+                    !widget.isFavoriteScreen &&
+                    widget.isLoadData == true && !widget.isSearch
                 ? SizedBox(
                     height: 24.0,
                     width: 24.0,

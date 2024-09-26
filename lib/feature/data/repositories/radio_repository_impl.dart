@@ -27,21 +27,8 @@ class RadioRepositoryImpl implements RadioRepository {
     );
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
-    return response.reversed.where((RadioStation e) {
-      response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
-      return e.url != null &&
-          e.url?.isNotEmpty == true &&
-          e.name != null &&
-          e.name?.isNotEmpty == true &&
-          e.country != null &&
-          e.country?.isNotEmpty == true &&
-          e.language != null &&
-          e.language?.isNotEmpty == true &&
-          e.tags != null &&
-          e.tags?.isNotEmpty == true &&
-          e.favicon != null &&
-          e.favicon?.isNotEmpty == true;
-    }).map(
+    response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
+    return response.reversed.map(
       (e) {
         return e.toRadioStationsEntity().copyWith(
             isFavourite:
@@ -61,20 +48,7 @@ class RadioRepositoryImpl implements RadioRepository {
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
-    return response.reversed.where((RadioStation e) {
-      return e.url != null &&
-          e.url?.isNotEmpty == true &&
-          e.name != null &&
-          e.name?.isNotEmpty == true &&
-          e.country != null &&
-          e.country?.isNotEmpty == true &&
-          e.language != null &&
-          e.language?.isNotEmpty == true &&
-          e.tags != null &&
-          e.tags?.isNotEmpty == true &&
-          e.favicon != null &&
-          e.favicon?.isNotEmpty == true;
-    }).map(
+    return response.reversed.map(
       (e) {
         return e.toRadioStationsEntity().copyWith(
             isFavourite:
@@ -97,20 +71,7 @@ class RadioRepositoryImpl implements RadioRepository {
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
-    return response.reversed.where((RadioStation e) {
-      return e.url != null &&
-          e.url?.isNotEmpty == true &&
-          e.name != null &&
-          e.name?.isNotEmpty == true &&
-          e.country != null &&
-          e.country?.isNotEmpty == true &&
-          e.language != null &&
-          e.language?.isNotEmpty == true &&
-          e.tags != null &&
-          e.tags?.isNotEmpty == true &&
-          e.favicon != null &&
-          e.favicon?.isNotEmpty == true;
-    }).map(
+    return response.reversed.map(
       (e) {
         return e.toRadioStationsEntity().copyWith(
             isFavourite:
@@ -133,20 +94,7 @@ class RadioRepositoryImpl implements RadioRepository {
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
-    return response.reversed.where((RadioStation e) {
-      return e.url != null &&
-          e.url?.isNotEmpty == true &&
-          e.name != null &&
-          e.name?.isNotEmpty == true &&
-          e.country != null &&
-          e.country?.isNotEmpty == true &&
-          e.language != null &&
-          e.language?.isNotEmpty == true &&
-          e.tags != null &&
-          e.tags?.isNotEmpty == true &&
-          e.favicon != null &&
-          e.favicon?.isNotEmpty == true;
-    }).map(
+    return response.reversed.map(
       (e) {
         return e.toRadioStationsEntity().copyWith(
             isFavourite:
@@ -170,20 +118,7 @@ class RadioRepositoryImpl implements RadioRepository {
     List<RadioStationEntity> favouriteRadioStations =
         await getFavouriteRadioStations();
     response.sort((a, b) => a.votes?.compareTo(b.votes ?? 0) ?? 0);
-    return response.reversed.where((RadioStation e) {
-      return e.url != null &&
-          e.url?.isNotEmpty == true &&
-          e.name != null &&
-          e.name?.isNotEmpty == true &&
-          e.country != null &&
-          e.country?.isNotEmpty == true &&
-          e.language != null &&
-          e.language?.isNotEmpty == true &&
-          e.tags != null &&
-          e.tags?.isNotEmpty == true &&
-          e.favicon != null &&
-          e.favicon?.isNotEmpty == true;
-    }).map(
+    return response.reversed.map(
       (e) {
         return e.toRadioStationsEntity().copyWith(
             isFavourite:

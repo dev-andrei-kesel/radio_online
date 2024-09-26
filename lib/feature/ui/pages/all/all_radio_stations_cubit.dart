@@ -6,19 +6,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/use_cases/use_case.dart';
 
 class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
-  int page = 0;
-  static const int _size = 150;
+  int _offset = 0;
+  static const int _limit = 150;
   final UseCase userCase;
   List<RadioStationEntity> stations = [];
+  bool isLoadData = true;
+  bool isSearch = false;
 
   AllRadioStationsCubit({required this.userCase})
       : super(AllRadioStationsLoadingState());
 
   Future<void> call() async {
     final RadioResult result =
-        await userCase.call(_size, page, null).asResult();
+        await userCase.call(_limit, _offset * _limit, null).asResult();
     switch (result) {
       case Success():
+        if (result.data.length < _limit) {
+          isLoadData = false;
+        }
         if (result.data == null) {
           emit(AllRadioStationsEmptyState());
         } else {
@@ -44,12 +49,15 @@ class AllRadioStationsCubit extends Cubit<AllRadioStationsStates> {
   }
 
   Future<void> paging() async {
-    if (state is AllRadioStationsLoadingState) return;
-    page = page + 1;
-    call();
+    if (isLoadData) {
+      if (state is AllRadioStationsLoadingState) return;
+      _offset = _offset + 1;
+      call();
+    }
   }
 
   Future<void> search(String query) async {
+    isSearch = query.isNotEmpty;
     if (state is! AllRadioStationsLoadingState) {
       List<RadioStationEntity> stations = this
           .stations

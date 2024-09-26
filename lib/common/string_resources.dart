@@ -15,4 +15,6 @@ class StringResources {
   static const String genre = 'Genre:';
   static const String homepage = 'Home page:';
   static const String hintSearch = 'Search name, genre, language, country...';
+  static const String errorMessageStream = 'Error playing radio station';
+  static const String ok = 'Ok';
 }
