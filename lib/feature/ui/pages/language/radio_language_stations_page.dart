@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_online/common/colors_dark.dart';
 import 'package:radio_online/feature/domain/usercases/language_radio_stations_user_case.dart';
-import 'package:radio_online/feature/ui/pages/language/radio_language_stations_cubit.dart';
-import 'package:radio_online/feature/ui/pages/language/radio_language_stations_states.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../audio/audio_player_handler.dart';
@@ -13,6 +11,8 @@ import '../../widgets/radio_empty_widget.dart';
 import '../../widgets/radio_error_widget.dart';
 import '../../widgets/radio_horizontal_list_widget.dart';
 import '../../widgets/radio_vertical_list_widget.dart';
+import '../cubit/radio_types_cubit.dart';
+import '../cubit/radio_types_states.dart';
 import '../main/radio_main_cubit.dart';
 import '../main/radio_main_states.dart';
 
@@ -31,27 +31,25 @@ class RadioLanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocProvider<RadioLanguageStationsCubit>(
-      create: (context) => RadioLanguageStationsCubit(
+    return BlocProvider<RadioTypesCubit>(
+      create: (context) => RadioTypesCubit(
         userCase: LanguageRadioStationsUserCase(
           repository: RepositoryScope.of(context).repository,
         ),
       )..call(null),
       child: BlocListener<RadioMainCubit, RadioMainStates>(
-        child: BlocBuilder<RadioLanguageStationsCubit,
-            RadioLanguageStationsStates>(
+        child: BlocBuilder<RadioTypesCubit, RadioTypesStates>(
           builder: (context, state) {
-            RadioLanguageStationsCubit cubit =
-                context.read<RadioLanguageStationsCubit>();
+            RadioTypesCubit cubit = context.read<RadioTypesCubit>();
             switch (state) {
-              case RadioLanguageStationsLoadedState():
+              case LoadedState():
                 return Container(
                   color: context.colors.background,
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.languages,
-                        type: cubit.language,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -74,24 +72,24 @@ class RadioLanguagePage extends StatelessWidget {
                     ],
                   ),
                 );
-              case RadioLanguageStationsErrorState():
+              case ErrorState():
                 return RadioErrorWidget(
                   failure: state.failure,
                   onSwipe: () {
                     cubit.update(
-                      cubit.language ?? cubit.languages.first,
+                      cubit.type ?? cubit.types.first,
                     );
                   },
                 );
-              case RadioLanguageStationsLoadingState():
+              case LoadingState():
                 return Container(
                   height: size.height,
                   color: context.colors.background,
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.languages,
-                        type: cubit.language,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -111,15 +109,15 @@ class RadioLanguagePage extends StatelessWidget {
                     ],
                   ),
                 );
-              case RadioLanguageStationsEmptyState():
+              case EmptyState():
                 return Container(
                   height: size.height,
                   color: context.colors.background,
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.languages,
-                        type: cubit.language,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -144,8 +142,8 @@ class RadioLanguagePage extends StatelessWidget {
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.languages,
-                        type: cubit.language,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -170,15 +168,14 @@ class RadioLanguagePage extends StatelessWidget {
           },
         ),
         listener: (context, state) {
-          RadioLanguageStationsCubit cubit =
-              context.read<RadioLanguageStationsCubit>();
+          RadioTypesCubit cubit = context.read<RadioTypesCubit>();
           if (state is OnChanged) {
             cubit.search(state.query);
           }
           if (state is EnableSearch && !state.enable) {
-            if (cubit.language != null) {
+            if (cubit.type != null) {
               itemScrollController?.scrollTo(
-                index: cubit.languages.indexOf(cubit.language!),
+                index: cubit.types.indexOf(cubit.type!),
                 duration: const Duration(milliseconds: 500),
               );
             }

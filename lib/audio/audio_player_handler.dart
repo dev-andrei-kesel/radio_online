@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:radio_online/feature/domain/entities/radio_station_entity.dart';
@@ -36,17 +37,21 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> playMediaItem(MediaItem mediaItem) async {
-    if (_player.playing) {
-      _player.stop();
-      this.mediaItem.add(mediaItem);
-      _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
-          initialIndex: 0, initialPosition: Duration.zero);
-      _player.play();
-    } else {
-      this.mediaItem.add(mediaItem);
-      _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
-          initialIndex: 0, initialPosition: Duration.zero);
-      _player.play();
+    try {
+      if (_player.playing) {
+        _player.stop();
+        this.mediaItem.add(mediaItem);
+        _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
+            initialIndex: 0, initialPosition: Duration.zero);
+        _player.play();
+      } else {
+        this.mediaItem.add(mediaItem);
+        _player.setAudioSource(AudioSource.uri(Uri.parse(mediaItem.id)),
+            initialIndex: 0, initialPosition: Duration.zero);
+        _player.play();
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -57,17 +62,21 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   }
 
   Future<void> setRadioStation(RadioStationEntity? station) async {
-    this.station = station;
-    playMediaItem(
-      MediaItem(
-        id: station?.url ?? '',
-        title: station?.name ?? '',
-        displayTitle: station?.country ?? '',
-        displaySubtitle: station?.name ?? '',
-        artUri: Uri.parse(station?.favicon ?? ''),
-        duration: const Duration(hours: 24, minutes: 00, seconds: 00),
-      ),
-    );
+    try {
+      this.station = station;
+      playMediaItem(
+        MediaItem(
+          id: station?.url ?? '',
+          title: station?.name ?? '',
+          displayTitle: station?.country ?? '',
+          displaySubtitle: station?.name ?? '',
+          artUri: Uri.parse(station?.favicon ?? ''),
+          duration: const Duration(hours: 24, minutes: 00, seconds: 00),
+        ),
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   PlaybackState _transformEvent(PlaybackEvent event) {
@@ -97,11 +106,18 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   }
 
   Future<void> requestNotificationPermission() async {
-    var status = await Permission.notification.request();
-    if (status.isGranted) {
-    } else if (status.isDenied) {
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings();
-    }
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.notification,
+      Permission.bluetooth,
+    ].request();
+    statuses.forEach(
+      (permission, status) {
+        if (status.isGranted) {
+        } else if (status.isDenied) {
+        } else if (status.isPermanentlyDenied) {
+          openAppSettings();
+        }
+      },
+    );
   }
 }

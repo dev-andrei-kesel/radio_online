@@ -18,6 +18,6 @@ class CountriesRadioStationsUserCase
   ) async =>
       repository.searchByCountry(country: params, offset: offset, limit: limit);
 
-  Future<List<RadioType>> getAllCountries() async =>
-      repository.getAllCountries();
+  @override
+  Future<List<RadioType>> get() async => repository.getAllCountries();
 }

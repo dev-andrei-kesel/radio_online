@@ -17,5 +17,6 @@ class GenreRadioStationsUserCase
   ) async =>
       repository.searchByGenre(genre: params, offset: offset, limit: limit);
 
-  Future<List<RadioType>> getAllGenres() async => repository.getAllTags();
+  @override
+  Future<List<RadioType>> get() async => repository.getAllTags();
 }

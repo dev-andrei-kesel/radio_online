@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_online/common/colors_dark.dart';
 import 'package:radio_online/feature/domain/usercases/genre_radio_stations_user_case.dart';
-import 'package:radio_online/feature/ui/pages/genre/radio_genre_stations_cubit.dart';
-import 'package:radio_online/feature/ui/pages/genre/radio_genre_stations_states.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../audio/audio_player_handler.dart';
@@ -13,6 +11,8 @@ import '../../widgets/radio_empty_widget.dart';
 import '../../widgets/radio_error_widget.dart';
 import '../../widgets/radio_horizontal_list_widget.dart';
 import '../../widgets/radio_vertical_list_widget.dart';
+import '../cubit/radio_types_cubit.dart';
+import '../cubit/radio_types_states.dart';
 import '../main/radio_main_cubit.dart';
 import '../main/radio_main_states.dart';
 
@@ -31,26 +31,25 @@ class RadioGenrePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocProvider<RadioGenreStationsCubit>(
-      create: (context) => RadioGenreStationsCubit(
+    return BlocProvider<RadioTypesCubit>(
+      create: (context) => RadioTypesCubit(
         userCase: GenreRadioStationsUserCase(
           repository: RepositoryScope.of(context).repository,
         ),
       )..call(null),
       child: BlocListener<RadioMainCubit, RadioMainStates>(
-        child: BlocBuilder<RadioGenreStationsCubit, RadioGenreStationsStates>(
+        child: BlocBuilder<RadioTypesCubit, RadioTypesStates>(
           builder: (context, state) {
-            RadioGenreStationsCubit cubit =
-                context.read<RadioGenreStationsCubit>();
+            RadioTypesCubit cubit = context.read<RadioTypesCubit>();
             switch (state) {
-              case RadioGenreStationsLoadedState():
+              case LoadedState():
                 return Container(
                   color: context.colors.background,
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.genres,
-                        type: cubit.genre,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -73,24 +72,24 @@ class RadioGenrePage extends StatelessWidget {
                     ],
                   ),
                 );
-              case RadioGenreStationsErrorState():
+              case ErrorState():
                 return RadioErrorWidget(
                   failure: state.failure,
                   onSwipe: () {
                     cubit.update(
-                      cubit.genre ?? cubit.genres.first,
+                      cubit.type ?? cubit.types.first,
                     );
                   },
                 );
-              case RadioGenreStationsLoadingState():
+              case LoadingState():
                 return Container(
                   height: size.height,
                   color: context.colors.background,
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.genres,
-                        type: cubit.genre,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -110,15 +109,15 @@ class RadioGenrePage extends StatelessWidget {
                     ],
                   ),
                 );
-              case RadioGenreStationsEmptyState():
+              case EmptyState():
                 return Container(
                   height: size.height,
                   color: context.colors.background,
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.genres,
-                        type: cubit.genre,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -143,8 +142,8 @@ class RadioGenrePage extends StatelessWidget {
                   child: Column(
                     children: [
                       RadioHorizontalListWidget(
-                        types: cubit.genres,
-                        type: cubit.genre,
+                        types: cubit.types,
+                        type: cubit.type,
                         itemScrollController: itemScrollController,
                         pageStorageBucket: pageStorageBucket,
                         onSelected: (e) {
@@ -169,15 +168,14 @@ class RadioGenrePage extends StatelessWidget {
           },
         ),
         listener: (context, state) {
-          RadioGenreStationsCubit cubit =
-              context.read<RadioGenreStationsCubit>();
+          RadioTypesCubit cubit = context.read<RadioTypesCubit>();
           if (state is OnChanged) {
             cubit.search(state.query);
           }
           if (state is EnableSearch && !state.enable) {
-            if (cubit.genre != null) {
+            if (cubit.type != null) {
               itemScrollController?.scrollTo(
-                index: cubit.genres.indexOf(cubit.genre!),
+                index: cubit.types.indexOf(cubit.type!),
                 duration: const Duration(milliseconds: 500),
               );
             }

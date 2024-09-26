@@ -18,6 +18,6 @@ class LanguageRadioStationsUserCase
       repository.searchByLanguage(
           language: params, offset: offset, limit: limit);
 
-  Future<List<RadioType>> getAllLanguages() async =>
-      repository.getAllLanguages();
+  @override
+  Future<List<RadioType>> get() async => repository.getAllLanguages();
 }
