@@ -22,7 +22,7 @@ class ColorsLight extends AppColors {
     this.text = Colors.black,
     this.selected = Colors.black,
     this.chipSelected = Colors.amber,
-    this.unselected = Colors.white,
+    this.unselected = Colors.white60,
   });
 
   @override

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -34,5 +34,10 @@
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+    if (typeof Worker !=='undefined') {
+      const worker = new Worker('sqflite_sw.js');
+    }
+  </script>
 </body>
 </html>

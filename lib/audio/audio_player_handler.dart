@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:radio_online/feature/domain/entities/radio_station_entity.dart';
@@ -72,7 +71,9 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
           title: station?.name ?? '',
           displayTitle: station?.country ?? '',
           displaySubtitle: station?.name ?? '',
-          artUri: Uri.parse(station?.favicon ?? ''),
+          artUri: Uri.parse(station?.favicon.toString().isNotEmpty == true
+              ? station?.favicon ?? StringResources.imageUrl
+              : StringResources.imageUrl),
           duration: const Duration(hours: 24, minutes: 00, seconds: 00),
         ),
       );
@@ -142,19 +143,21 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   }
 
   Future<void> requestNotificationPermission() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.notification,
-      Permission.bluetooth,
-    ].request();
-    statuses.forEach(
-      (permission, status) {
-        if (status.isGranted) {
-        } else if (status.isDenied) {
-        } else if (status.isPermanentlyDenied) {
-          openAppSettings();
-        }
-      },
-    );
+    if (!kIsWeb) {
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.notification,
+        Permission.bluetooth,
+      ].request();
+      statuses.forEach(
+        (permission, status) {
+          if (status.isGranted) {
+          } else if (status.isDenied) {
+          } else if (status.isPermanentlyDenied) {
+            openAppSettings();
+          }
+        },
+      );
+    }
   }
 
   Future<void> dispose() async {

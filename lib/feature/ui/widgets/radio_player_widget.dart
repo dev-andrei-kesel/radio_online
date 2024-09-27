@@ -6,6 +6,7 @@ import 'package:radio_online/common/app_text_styles.dart';
 import 'package:radio_online/common/colors_dark.dart';
 
 import '../../../audio/audio_player_handler.dart';
+import '../../../common/string_resources.dart';
 import '../pages/favourites/radio_favourite_states.dart';
 import '../pages/favourites/radio_favourites_cubit.dart';
 import '../pages/main/radio_main_cubit.dart';
@@ -76,7 +77,13 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
                               child: CircleAvatar(
                                 radius: 20.0,
                                 backgroundImage: NetworkImage(
-                                  mediaItem.artUri.toString(),
+                                  Uri.parse(mediaItem.artUri
+                                                  .toString()
+                                                  .isNotEmpty ==
+                                              true
+                                          ? mediaItem.artUri.toString()
+                                          : StringResources.imageUrl)
+                                      .toString(),
                                 ),
                               ),
                             ),
@@ -254,7 +261,9 @@ class _RadioPlayerWidgetState extends State<RadioPlayerWidget>
             _controller.stop();
           }
         } catch (e) {
-          debugPrint(e.toString());
+          debugPrint(
+            e.toString(),
+          );
         }
       },
     );

@@ -27,44 +27,47 @@ class InfoRadioStationPage extends StatelessWidget {
           StringResources.stationTitle,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(12.0),
-          width: size.width,
-          height: size.height,
-          color: context.colors.background,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12.0),
-              Container(
-                decoration: BoxDecoration(
-                  color: context.colors.selected.withOpacity(0.15),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(16.0),
+      body: Container(
+        padding: const EdgeInsets.all(12.0),
+        width: size.width,
+        height: size.height,
+        color: context.colors.background,
+        child: ListView(
+          children: [
+            const SizedBox(height: 12.0),
+            Container(
+              decoration: BoxDecoration(
+                color: context.colors.selected.withOpacity(0.15),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+              ),
+              child: CachedNetworkImage(
+                width: size.width,
+                height: size.height * 0.3,
+                fit: BoxFit.fill,
+                imageUrl: Uri.parse(radioStationEntity.favicon?.isNotEmpty ==
+                            true
+                        ? radioStationEntity.favicon ?? StringResources.imageUrl
+                        : StringResources.imageUrl)
+                    .toString(),
+                placeholder: (context, url) => SizedBox(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: context.colors.background,
+                    ),
                   ),
                 ),
-                child: CachedNetworkImage(
-                  width: size.width,
-                  height: size.width * 0.8,
-                  fit: BoxFit.fill,
-                  imageUrl: radioStationEntity.favicon ?? '',
-                  placeholder: (context, url) => SizedBox(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: context.colors.background,
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Center(
-                    child: Icon(
-                      color: context.colors.unselected,
-                      Icons.radio,
-                      size: size.width * 0.5,
-                    ),
+                errorWidget: (context, url, error) => Center(
+                  child: Icon(
+                    color: context.colors.unselected,
+                    Icons.radio,
+                    size: size.height * 0.3,
                   ),
                 ),
               ),
+            ),
+            if (radioStationEntity.name?.isNotEmpty == true) ...[
               const SizedBox(height: 24.0),
               Text(
                 textAlign: TextAlign.start,
@@ -76,6 +79,8 @@ class InfoRadioStationPage extends StatelessWidget {
                 style: context.styles.name,
                 '${radioStationEntity.name?.trim()}',
               ),
+            ],
+            if (radioStationEntity.votes != null) ...[
               const SizedBox(height: 12.0),
               Text(
                 textAlign: TextAlign.start,
@@ -87,6 +92,8 @@ class InfoRadioStationPage extends StatelessWidget {
                 style: context.styles.name,
                 '${radioStationEntity.votes}',
               ),
+            ],
+            if (radioStationEntity.country?.isNotEmpty == true) ...[
               const SizedBox(height: 12.0),
               Text(
                 textAlign: TextAlign.start,
@@ -98,6 +105,8 @@ class InfoRadioStationPage extends StatelessWidget {
                 style: context.styles.name,
                 '${radioStationEntity.country?.trim()}',
               ),
+            ],
+            if (radioStationEntity.language?.isNotEmpty == true) ...[
               const SizedBox(height: 12.0),
               Text(
                 textAlign: TextAlign.start,
@@ -109,6 +118,8 @@ class InfoRadioStationPage extends StatelessWidget {
                 style: context.styles.name,
                 '${radioStationEntity.language?.trim()}',
               ),
+            ],
+            if (radioStationEntity.tags?.isNotEmpty == true) ...[
               const SizedBox(height: 12.0),
               Text(
                 textAlign: TextAlign.start,
@@ -120,43 +131,43 @@ class InfoRadioStationPage extends StatelessWidget {
                 style: context.styles.name,
                 '${radioStationEntity.tags?.trim().replaceAll(',', ', ')}',
               ),
-              const SizedBox(height: 12.0),
-              radioStationEntity.homepage?.isNotEmpty == true
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          textAlign: TextAlign.start,
-                          style: context.styles.nameBold,
-                          StringResources.homepage,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            final Uri url =
-                                Uri.parse(radioStationEntity.homepage ?? '');
-                            if (await canLaunchUrl(
-                              url,
-                            )) {
-                              await launchUrl(url,
-                                  mode: LaunchMode.externalApplication);
-                            }
-                          },
-                          child: Text(
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.blue,
-                            ),
-                            '${radioStationEntity.homepage}',
-                          ),
-                        ),
-                        const SizedBox(height: 12.0),
-                      ],
-                    )
-                  : const SizedBox(),
             ],
-          ),
+            if (radioStationEntity.homepage?.isNotEmpty == true) ...[
+              const SizedBox(height: 12.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    textAlign: TextAlign.start,
+                    style: context.styles.nameBold,
+                    StringResources.homepage,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final Uri url =
+                          Uri.parse(radioStationEntity.homepage ?? '');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url,
+                            mode: LaunchMode.externalApplication);
+                      }
+                    },
+                    child: Text(
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue,
+                      ),
+                      '${radioStationEntity.homepage}',
+                    ),
+                  ),
+                  const SizedBox(height: 12.0),
+                ],
+              ),
+            ] else ...[
+              const SizedBox(),
+            ],
+          ],
         ),
       ),
     );

@@ -120,6 +120,7 @@ class _MainScreenState extends State<MainScreen>
                     ),
             ),
             body: Stack(
+              alignment: Alignment.center,
               children: [
                 widget.navigationShell,
                 StreamBuilder<String>(
@@ -137,6 +138,8 @@ class _MainScreenState extends State<MainScreen>
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
                                     content: Text(
                                       style: const TextStyle(
                                         color: Colors.white,
@@ -172,7 +175,7 @@ class _MainScreenState extends State<MainScreen>
                   child: Center(
                     child: Icon(
                       context.watch<RadioMainCubit>().icon,
-                      size: size.width,
+                      size: size.width * 0.8,
                       color: Colors.white.withOpacity(0.35),
                     ),
                   ),

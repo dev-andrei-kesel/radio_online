@@ -17,4 +17,5 @@ class StringResources {
   static const String hintSearch = 'Search name, genre, language, country...';
   static const String errorMessageStream = 'Error playing radio station';
   static const String ok = 'Ok';
+  static const String imageUrl = 'https://img.freepik.com/free-vector/vintage-radio-concept-illustration_114360-19549.jpg';
 }

@@ -1,13 +1,15 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_online/common/app_colors.dart';
-
+import 'package:sqflite/sqflite.dart';
 import 'audio/audio_player_handler.dart';
 import 'common/app_text_styles.dart';
 import 'common/colors_dark.dart';
 import 'common/colors_light.dart';
 import 'common/string_resources.dart';
 import 'feature/navigation/navigation_router.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 void main() async {
   NavigationRouter.audioHandler = await AudioService.init(
@@ -19,6 +21,11 @@ void main() async {
           StringResources.androidNotificationChannelName,
     ),
   );
+
+  if (kIsWeb) {
+    databaseFactory = databaseFactoryFfiWeb;
+  }
+
   runApp(const MyApp());
 }
 

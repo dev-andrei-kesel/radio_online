@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_online/common/colors_dark.dart';
 import 'package:radio_online/feature/ui/widgets/radio_station_widget.dart';
@@ -57,36 +58,58 @@ class _RadioVerticalListWidgetState extends State<RadioVerticalListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      controller: _scrollController,
-      itemCount: widget.stations?.length ?? 0,
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            RadioStationWidget(
-              isFavoriteScreen: widget.isFavoriteScreen,
-              radioStationEntity: widget.stations?[index],
-              size: widget.size,
-              onClick: widget.onClick,
-              widget.onDeleteStation,
-              audioHandler: widget.audioHandler,
+    return !kIsWeb
+        ? ListView.builder(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            controller: _scrollController,
+            itemCount: widget.stations?.length ?? 0,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  RadioStationWidget(
+                    isFavoriteScreen: widget.isFavoriteScreen,
+                    radioStationEntity: widget.stations?[index],
+                    size: widget.size,
+                    onClick: widget.onClick,
+                    widget.onDeleteStation,
+                    audioHandler: widget.audioHandler,
+                  ),
+                  index == widget.stations!.length - 1 &&
+                          !widget.isFavoriteScreen &&
+                          widget.isLoadData == true &&
+                          !widget.isSearch
+                      ? SizedBox(
+                          height: 24.0,
+                          width: 24.0,
+                          child: CircularProgressIndicator(
+                            color: context.colors.text,
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              );
+            },
+          )
+        : GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 1,
             ),
-            index == widget.stations!.length - 1 &&
-                    !widget.isFavoriteScreen &&
-                    widget.isLoadData == true && !widget.isSearch
-                ? SizedBox(
-                    height: 24.0,
-                    width: 24.0,
-                    child: CircularProgressIndicator(
-                      color: context.colors.text,
-                    ),
-                  )
-                : const SizedBox(),
-          ],
-        );
-      },
-    );
+            padding: const EdgeInsets.only(bottom: 16.0),
+            controller: _scrollController,
+            itemCount: widget.stations?.length ?? 0,
+            itemBuilder: (context, index) {
+              return RadioStationWidget(
+                isFavoriteScreen: widget.isFavoriteScreen,
+                radioStationEntity: widget.stations?[index],
+                size: widget.size,
+                onClick: widget.onClick,
+                widget.onDeleteStation,
+                audioHandler: widget.audioHandler,
+              );
+            },
+          );
   }
 
   @override
