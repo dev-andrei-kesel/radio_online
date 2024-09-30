@@ -14,20 +14,26 @@ class RadioEmptyWidget extends StatelessWidget {
       height: height,
       color: context.colors.background,
       child: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            size: 200.0,
-            Icons.headset_off,
-            color: context.colors.selected,
-          ),
-          Text(
-            StringResources.emptyMessage,
-            style: context.styles.title,
-          ),
-        ],
-      )),
+        key: const Key('radioEmptyWidgetCenter'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible( // Using Flexible
+              child: Icon(
+                size: 150.0, // Reduced size
+                Icons.headset_off,
+                color: context.colors.selected,
+              ),
+            ),
+            Flexible( // Using Flexible
+              child: Text(
+                StringResources.emptyMessage,
+                style: context.styles.title,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

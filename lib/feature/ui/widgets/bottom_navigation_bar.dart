@@ -2,8 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_online/common/colors_dark.dart';
 
-import '../../navigation/navigation_router.dart';
-
 class RadioBottomNavigationBar extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
   final VoidCallback onTap;
@@ -76,11 +74,5 @@ class _RadioBottomNavigationBarState extends State<RadioBottomNavigationBar> {
       index,
       initialLocation: index == navigationShell.currentIndex,
     );
-  }
-
-  @override
-  void dispose() {
-    NavigationRouter.goRouter.dispose();
-    super.dispose();
   }
 }

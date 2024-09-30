@@ -14,6 +14,7 @@ class RadioStationsInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: const Key('radioStationsInfoRow'),
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         RadioRatingWidget(
