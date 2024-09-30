@@ -1,16 +1,9 @@
 # radio_online
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![All stations ](Screenshot_20240930_201515.png)
+![Liked](Screenshot_20240930_201808.png)
+![Countries](Screenshot_20240930_201808.png)
+![Genres](Screenshot_20240930_201845.png)
+![Languages](Screenshot_20240930_201906.png)
+![Search](Screenshot_20240930_201938.png)
+![Info](Screenshot_20240930_201949.png)
+![Notification](Screenshot_20240930_202011.png)
