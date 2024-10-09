@@ -21,3 +21,7 @@ class EnableSearch extends RadioMainStates {
 
   EnableSearch({required this.enable});
 }
+
+class EnableBluetooth extends RadioMainStates {}
+
+class DisableBluetooth extends RadioMainStates {}
