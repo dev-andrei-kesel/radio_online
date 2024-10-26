@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_online/feature/ui/pages/main/radio_main_states.dart';
 
@@ -7,7 +8,27 @@ class RadioMainCubit extends Cubit<RadioMainStates> {
   String query = '';
   bool enable = false;
 
-  RadioMainCubit() : super(DefaultState());
+  bool? _isBluetoothEnabled;
+
+  bool? get isBluetoothEnabled => _isBluetoothEnabled;
+
+  static const platform =
+      MethodChannel('by.radio.online.radio_online/bluetooth');
+  static const stateChannel =
+      EventChannel('by.radio.online.radio_online.flutter.dev/bluetooth/state');
+
+  RadioMainCubit() : super(DefaultState()) {
+    stateChannel.receiveBroadcastStream().listen(
+      (dynamic event) {
+        _isBluetoothEnabled = event as bool?;
+        if (_isBluetoothEnabled == true) {
+          emit(EnableBluetooth());
+        } else {
+          emit(DisableBluetooth());
+        }
+      },
+    );
+  }
 
   Future<void> onPlay() async {
     icon = Icons.play_arrow;
@@ -38,5 +59,23 @@ class RadioMainCubit extends Cubit<RadioMainStates> {
     this.enable = enable;
     onChanged('');
     emit(EnableSearch(enable: enable));
+  }
+
+  Future<void> getBluetoothState() async {
+    bool? isBluetoothEnabled;
+    try {
+      final bool result = await platform.invokeMethod('getBluetoothState');
+      isBluetoothEnabled = result;
+      _isBluetoothEnabled = isBluetoothEnabled;
+    } on PlatformException catch (e) {
+      _isBluetoothEnabled = false;
+      debugPrint('Failed to get Bluetooth state: ${e.message}');
+    }
+
+    if (isBluetoothEnabled == true) {
+      emit(EnableBluetooth());
+    } else {
+      emit(DisableBluetooth());
+    }
   }
 }

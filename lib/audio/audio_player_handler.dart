@@ -144,10 +144,8 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
 
   Future<void> requestNotificationPermission() async {
     if (!kIsWeb) {
-      Map<Permission, PermissionStatus> statuses = await [
-        Permission.notification,
-        Permission.bluetooth,
-      ].request();
+      Map<Permission, PermissionStatus> statuses =
+          await [Permission.notification, Permission.bluetooth].request();
       statuses.forEach(
         (permission, status) {
           if (status.isGranted) {

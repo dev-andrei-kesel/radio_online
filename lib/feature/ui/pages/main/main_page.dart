@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen>
       child: MultiBlocProvider(
         providers: [
           BlocProvider<RadioMainCubit>(
-            create: (context) => RadioMainCubit(),
+            create: (context) => RadioMainCubit()..getBluetoothState(),
           ),
           BlocProvider<RadioFavouritesCubit>(
             create: (context) => RadioFavouritesCubit(
@@ -68,6 +68,14 @@ class _MainScreenState extends State<MainScreen>
               backgroundColor: context.colors.background,
               foregroundColor: context.colors.text,
               centerTitle: true,
+              leading: Icon(
+                context.read<RadioMainCubit>().isBluetoothEnabled == true
+                    ? Icons.bluetooth
+                    : Icons.bluetooth_disabled,
+                color: context.read<RadioMainCubit>().isBluetoothEnabled == true
+                    ? context.colors.text
+                    : Colors.red,
+              ),
               actions: <Widget>[
                 IconButton(
                   onPressed: () {
@@ -139,7 +147,8 @@ class _MainScreenState extends State<MainScreen>
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     behavior: SnackBarBehavior.floating,
-                                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 4.0),
                                     content: Text(
                                       style: const TextStyle(
                                         color: Colors.white,
